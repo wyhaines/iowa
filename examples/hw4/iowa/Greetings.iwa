@@ -1,0 +1,9 @@
+class Greetings < Iowa::Component
+
+	attr_accessor :yourname
+
+	def now
+		Time.now.asctime
+	end
+	
+end

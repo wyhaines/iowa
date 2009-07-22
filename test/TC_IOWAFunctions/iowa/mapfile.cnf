@@ -1,0 +1,8 @@
+:rewrites:
+:map:
+  - /links1.html: Links1
+  - /repeat1.html: Repeat1
+  - /repeat2.html: Repeat2
+  - /repeat3.html: Repeat3
+  - /ajax1.html: Ajax1
+  - /daniel_test.html: DanielTest

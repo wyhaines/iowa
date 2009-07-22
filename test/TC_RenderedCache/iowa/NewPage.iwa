@@ -1,0 +1,11 @@
+class NewPage < Iowa::Component
+	CSTRFTIME = "%Y%m%d%H%M".freeze unless const_defined?(:CSTRFTIME)
+
+	def fingerprint
+		Time.now.strftime(CSTRFTIME)
+	end
+
+	def now
+		Time.now.asctime
+	end
+end

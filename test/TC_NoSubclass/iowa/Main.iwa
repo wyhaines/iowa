@@ -1,0 +1,14 @@
+class Main < Iowa::Component
+	attr_accessor :count
+	def awake
+		@count = 0
+	end
+	
+	def setup
+		@count += 1
+	end
+
+	def now
+		Time.now.asctime
+	end
+end

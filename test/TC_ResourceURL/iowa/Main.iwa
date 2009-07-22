@@ -1,0 +1,10 @@
+class Main < Iowa::Component
+	def res1
+		session.resource_url('abc123','text/plain')
+	end
+
+	def res2
+		session.resource_url('def','456') {|a,b| Iowa::Resource.new("#{a}#{b}",'text/plain')}
+	end
+
+end

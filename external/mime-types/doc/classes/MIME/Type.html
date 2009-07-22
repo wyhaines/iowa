@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: MIME::Type</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">MIME::Type</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/mime/types_rb.html">
+                lib/mime/types.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The definition of one <a href="../MIME.html">MIME</a> content-type.
+</p>
+<h2>Usage</h2>
+<pre>
+ require 'mime/types'
+
+ plaintext = MIME::Types['text/plain']
+ print plaintext.media_type           # =&gt; 'text'
+ print plaintext.sub_type             # =&gt; 'plain'
+
+ puts plaintext.extensions.join(&quot; &quot;)  # =&gt; 'asc txt c cc h hh cpp'
+
+ puts plaintext.encoding              # =&gt; 8bit
+ puts plaintext.binary?               # =&gt; false
+ puts plaintext.ascii?                # =&gt; true
+ puts plaintext == 'text/plain'       # =&gt; true
+ puts MIME::Type.simplified('x-appl/x-zip') # =&gt; 'appl/zip'
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000023">ascii?</a>&nbsp;&nbsp;
+      <a href="#M000022">binary?</a>&nbsp;&nbsp;
+      <a href="#M000027">complete?</a>&nbsp;&nbsp;
+      <a href="#M000011">default_encoding</a>&nbsp;&nbsp;
+      <a href="#M000014">docs=</a>&nbsp;&nbsp;
+      <a href="#M000017">from_array</a>&nbsp;&nbsp;
+      <a href="#M000018">from_hash</a>&nbsp;&nbsp;
+      <a href="#M000019">from_mime_type</a>&nbsp;&nbsp;
+      <a href="#M000010">like?</a>&nbsp;&nbsp;
+      <a href="#M000020">new</a>&nbsp;&nbsp;
+      <a href="#M000013">obsolete?</a>&nbsp;&nbsp;
+      <a href="#M000026">platform?</a>&nbsp;&nbsp;
+      <a href="#M000021">registered?</a>&nbsp;&nbsp;
+      <a href="#M000024">signature?</a>&nbsp;&nbsp;
+      <a href="#M000016">simplified</a>&nbsp;&nbsp;
+      <a href="#M000025">system?</a>&nbsp;&nbsp;
+      <a href="#M000030">to_a</a>&nbsp;&nbsp;
+      <a href="#M000031">to_hash</a>&nbsp;&nbsp;
+      <a href="#M000028">to_s</a>&nbsp;&nbsp;
+      <a href="#M000029">to_str</a>&nbsp;&nbsp;
+      <a href="#M000015">urls</a>&nbsp;&nbsp;
+      <a href="#M000012">use_instead</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">Comparable</span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">'1.15'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">IANA_URL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;http://www.iana.org/assignments/media-types/%s/%s&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">RFC_URL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;http://rfc-editor.org/rfc/rfc%s.txt&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">DRAFT_URL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;http://datatracker.ietf.org/public/idindex.cgi?command=id_details&amp;filename=%s&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">LTSW_URL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;http://www.ltsw.se/knbase/internet/%s.htp&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CONTACT_URL</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;http://www.iana.org/assignments/contact-people.htm#%s&quot;</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">content_type</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the whole <a href="../MIME.html">MIME</a> content-type string.
+
+<pre>
+  text/plain        =&gt; text/plain
+  x-chemical/x-pdb  =&gt; x-chemical/x-pdb
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">default_encoding</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the default encoding for the <a href="Type.html">MIME::Type</a>
+based on the media type.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">docs</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The documentation for this <a href="Type.html">MIME::Type</a>.
+Documentation about media types will be found on a media type definition as
+a comment. Documentation will be found through docs.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">encoding</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The encoding (7bit, 8bit, quoted-printable, or base64) required to
+transport the data of this content type safely across a network, which
+roughly corresponds to Content-Transfer-Encoding. A value of <tt>nil</tt>
+or <tt>:default</tt> will reset the encoding to the <a
+href="Type.html#M000011">default_encoding</a> for the <a
+href="Type.html">MIME::Type</a>. Raises ArgumentError if the encoding
+provided is invalid.
+
+<p>
+If the encoding is not provided on construction, this will be either
+&#8216;quoted-printable&#8217; (for text/* media types) and
+&#8216;base64&#8217; for eveything else.
+</p>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">extensions</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The list of extensions which are known to be used for this <a
+href="Type.html">MIME::Type</a>. Non-array values will be coerced into an
+array with <a href="Type.html#M000030">to_a</a>. Array values will be
+flattened and <tt>nil</tt> values removed.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">media_type</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the media type of the simplified <a href="../MIME.html">MIME</a>
+type.
+
+<pre>
+  text/plain        =&gt; text
+  x-chemical/x-pdb  =&gt; chemical
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">obsolete</td>
+          <td class="context-item-value">&nbsp;[W]&nbsp;</td>
+          <td class="context-item-desc">
+Sets the obsolescence indicator for this media type.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">raw_media_type</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the media type of the unmodified <a href="../MIME.html">MIME</a>
+type.
+
+<pre>
+  text/plain        =&gt; text
+  x-chemical/x-pdb  =&gt; x-chemical
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">raw_sub_type</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the media type of the unmodified <a href="../MIME.html">MIME</a>
+type.
+
+<pre>
+  text/plain        =&gt; plain
+  x-chemical/x-pdb  =&gt; x-pdb
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">simplified</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The <a href="../MIME.html">MIME</a> types main- and sub-label can both
+start with <tt>x-</tt>, which indicates that it is a non-registered name.
+Of course, after registration this flag can disappear, adds to the
+confusing proliferation of <a href="../MIME.html">MIME</a> types. The
+simplified string has the <tt>x-</tt> removed and are translated to
+lowercase.
+
+<pre>
+  text/plain        =&gt; text/plain
+  x-chemical/x-pdb  =&gt; chemical/pdb
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">sub_type</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the sub-type of the simplified <a href="../MIME.html">MIME</a>
+type.
+
+<pre>
+  text/plain        =&gt; plain
+  x-chemical/x-pdb  =&gt; pdb
+</pre>
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">system</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The regexp for the operating system that this <a
+href="Type.html">MIME::Type</a> is specific to.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">url</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The encoded URL list for this <a href="Type.html">MIME::Type</a>. See <a
+href="Type.html#M000015">urls</a> for
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">use_instead</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+Returns the media type or types that should be used instead of this media
+type, if it is obsolete. If there is no replacement media type, or it is
+not obsolete, <tt>nil</tt> will be returned.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000017.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000017.html');return false;">
+          <span class="method-name">from_array</span><span class="method-args">(*args) {|m if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a <a href="Type.html">MIME::Type</a> from an array in the form of:
+</p>
+<pre>
+  [type-name, [extensions], encoding, system]
+</pre>
+<p>
+<tt>extensions</tt>, <tt>encoding</tt>, and <tt>system</tt> are optional.
+</p>
+<pre>
+  MIME::Type.from_array(&quot;application/x-ruby&quot;, ['rb'], '8bit')
+  MIME::Type.from_array([&quot;application/x-ruby&quot;, ['rb'], '8bit'])
+</pre>
+<p>
+These are equivalent to:
+</p>
+<pre>
+  MIME::Type.new('application/x-ruby') do |t|
+    t.extensions  = %w(rb)
+    t.encoding    = '8bit'
+  end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000018.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000018.html');return false;">
+          <span class="method-name">from_hash</span><span class="method-args">(hash) {|m if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Creates a <a href="Type.html">MIME::Type</a> from a hash. Keys are
+case-insensitive, dashes may be replaced with underscores, and the internal
+Symbol of the lowercase-underscore version can be used as well. That is,
+Content-<a href="Type.html">Type</a> can be provided as content-type,
+Content_Type, content_type, or :content_type.
+</p>
+<p>
+Known keys are <tt>Content-<a href="Type.html">Type</a></tt>,
+<tt>Content-Transfer-Encoding</tt>, <tt>Extensions</tt>, and
+<tt>System</tt>.
+</p>
+<pre>
+  MIME::Type.from_hash('Content-Type' =&gt; 'text/x-yaml',
+                       'Content-Transfer-Encoding' =&gt; '8bit',
+                       'System' =&gt; 'linux',
+                       'Extensions' =&gt; ['yaml', 'yml'])
+</pre>
+<p>
+This is equivalent to:
+</p>
+<pre>
+  MIME::Type.new('text/x-yaml') do |t|
+    t.encoding    = '8bit'
+    t.system      = 'linux'
+    t.extensions  = ['yaml', 'yml']
+  end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000019.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000019.html');return false;">
+          <span class="method-name">from_mime_type</span><span class="method-args">(mime_type) {|m if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Essentially a copy constructor.
+</p>
+<pre>
+  MIME::Type.from_mime_type(plaintext)
+</pre>
+<p>
+is equivalent to:
+</p>
+<pre>
+  MIME::Type.new(plaintext.content_type.dup) do |t|
+    t.extensions  = plaintext.extensions.dup
+    t.system      = plaintext.system.dup
+    t.encoding    = plaintext.encoding.dup
+  end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000020.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(content_type) {|self if block_given?| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Builds a <a href="Type.html">MIME::Type</a> object from the provided <a
+href="../MIME.html">MIME</a> Content <a href="Type.html">Type</a> value
+(e.g., &#8216;text/plain&#8217; or &#8216;applicaton/x-eruby&#8217;). The
+constructed object is yielded to an optional block for additional
+configuration, such as associating extensions and encoding information.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000016.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000016.html');return false;">
+          <span class="method-name">simplified</span><span class="method-args">(content_type)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The <a href="../MIME.html">MIME</a> types main- and sub-label can both
+start with <tt>x-</tt>, which indicates that it is a non-registered name.
+Of course, after registration this flag can disappear, adds to the
+confusing proliferation of <a href="../MIME.html">MIME</a> types. The
+simplified string has the <tt>x-</tt> removed and are translated to
+lowercase.
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000023.html');return false;">
+          <span class="method-name">ascii?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="../MIME.html">MIME</a> types can be specified to be sent across a
+network in particular formats. This method returns <tt>false</tt> when the
+<a href="../MIME.html">MIME</a> type encoding is set to <tt>base64</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000022.html');return false;">
+          <span class="method-name">binary?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="../MIME.html">MIME</a> types can be specified to be sent across a
+network in particular formats. This method returns <tt>true</tt> when the
+<a href="../MIME.html">MIME</a> type encoding is set to <tt>base64</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000027" class="method-detail">
+        <a name="M000027"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000027.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000027.html');return false;">
+          <span class="method-name">complete?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if the <a href="Type.html">MIME::Type</a> specifies
+an extension list, indicating that it is a complete <a
+href="Type.html">MIME::Type</a>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000011.html');return false;">
+          <span class="method-name">default_encoding</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000014.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000014.html');return false;">
+          <span class="method-name">docs=</span><span class="method-args">(d)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000010.html');return false;">
+          <span class="method-name">like?</span><span class="method-args">(other)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if the simplified type matches the current
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000013.html');return false;">
+          <span class="method-name">obsolete?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if the media type is obsolete.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000026.html');return false;">
+          <span class="method-name">platform?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if the <a href="Type.html">MIME::Type</a> is specific
+to the current operating system as represented by RUBY_PLATFORM.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000021.html');return false;">
+          <span class="method-name">registered?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="../MIME.html">MIME</a> content-types which are not regestered by
+IANA nor defined in RFCs are required to start with <tt>x-</tt>. This
+counts as well for a new media type as well as a new sub-type of an
+existing media type. If either the media-type or the content-type begins
+with <tt>x-</tt>, this method will return <tt>false</tt>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000024.html');return false;">
+          <span class="method-name">signature?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> when the simplified <a href="../MIME.html">MIME</a>
+type is in the list of known digital signatures.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000025.html');return false;">
+          <span class="method-name">system?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns <tt>true</tt> if the <a href="Type.html">MIME::Type</a> is specific
+to an operating system.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000030.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000030.html');return false;">
+          <span class="method-name">to_a</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="../MIME.html">MIME</a> type as an array suitable for
+use with <a href="Type.html#M000017">MIME::Type.from_array</a>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000031.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000031.html');return false;">
+          <span class="method-name">to_hash</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="../MIME.html">MIME</a> type as an array suitable for
+use with <a href="Type.html#M000018">MIME::Type.from_hash</a>.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000028" class="method-detail">
+        <a name="M000028"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000028.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000028.html');return false;">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="../MIME.html">MIME</a> type as a string.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000029.html');return false;">
+          <span class="method-name">to_str</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the <a href="../MIME.html">MIME</a> type as a string for implicit
+conversions.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000015.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000015.html');return false;">
+          <span class="method-name">urls</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+The decoded URL list for this <a href="Type.html">MIME::Type</a>. The
+special URL value IANA will be translated into:
+</p>
+<pre>
+  http://www.iana.org/assignments/media-types/&lt;mediatype&gt;/&lt;subtype&gt;
+</pre>
+<p>
+The special URL value RFC### will be translated into:
+</p>
+<pre>
+  http://www.rfc-editor.org/rfc/rfc###.txt
+</pre>
+<p>
+The special URL value DRAFT:name will be translated into:
+</p>
+<pre>
+  https://datatracker.ietf.org/public/idindex.cgi?
+      command=id_detail&amp;filename=&lt;name&gt;
+</pre>
+<p>
+The special URL value LTSW will be translated into:
+</p>
+<pre>
+  http://www.ltsw.se/knbase/internet/&lt;mediatype&gt;.htp
+</pre>
+<p>
+The special URL value [token] will be translated into:
+</p>
+<pre>
+  http://www.iana.org/assignments/contact-people.htm#&lt;token&gt;
+</pre>
+<p>
+These values will be accessible through url, which always returns an array.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="Type.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('Type.src/M000012.html');return false;">
+          <span class="method-name">use_instead</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

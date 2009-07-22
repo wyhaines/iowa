@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>urls (MIME::Type)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/mime/types.rb, line 223</span>
+223:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">urls</span>
+224:       <span class="ruby-ivar">@url</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span>
+225:         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">el</span>
+226:         <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">%r{^IANA$}</span>
+227:           <span class="ruby-constant">IANA_URL</span> <span class="ruby-operator">%</span> [ <span class="ruby-ivar">@media_type</span>, <span class="ruby-ivar">@sub_type</span> ]
+228:         <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">%r{^RFC(\d+)$}</span>
+229:           <span class="ruby-constant">RFC_URL</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">$1</span>
+230:         <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">%r{^DRAFT:(.+)$}</span>
+231:           <span class="ruby-constant">DRAFT_URL</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">$1</span>
+232:         <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">%r{^LTSW$}</span>
+233:           <span class="ruby-constant">LTSW_URL</span> <span class="ruby-operator">%</span> <span class="ruby-ivar">@media_type</span>
+234:         <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">%r{^\[([^\]]+)\]}</span>
+235:           <span class="ruby-constant">CONTACT_URL</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">$1</span>
+236:         <span class="ruby-keyword kw">else</span>
+237:           <span class="ruby-identifier">el</span>
+238:         <span class="ruby-keyword kw">end</span>
+239:       }
+240:     <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

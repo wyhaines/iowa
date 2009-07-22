@@ -1,0 +1,14 @@
+class IntervalWidget < Iowa::Component
+
+	attr_accessor :interval
+
+	def cacheable; false; end
+
+	def dtn_asctime
+		tn = Time.now
+		dtn = DateTime.new(tn.year, tn.month, tn.day, tn.hour, tn.min, tn.sec)
+		dtn = dtn + @interval.to_f
+		dtn.asctime
+	end
+
+end

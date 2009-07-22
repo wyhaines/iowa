@@ -1,0 +1,19 @@
+socket:
+  hostname: 127.0.0.1
+  port: 47991
+logging:
+  basedir: ../log
+  minlevel: 0
+  maxsize: 10000000
+  maxage: 86400
+application:
+  daemonize: true
+  docroot_caching: true
+  sessioncache:
+    class: LRUCache
+    maxsize: 200
+    ttl: 3600
+  dispatcher:
+    class: StandardDispatcher
+  policy:
+    class: iowa/Policy

@@ -1,0 +1,8 @@
+socket:
+  hostname: localhost
+  port: 47991
+logging:
+  basedir: ../log
+  minlevel: 0
+  maxsize: 10000000
+  maxage: 86400

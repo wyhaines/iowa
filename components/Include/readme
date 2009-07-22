@@ -1,0 +1,5 @@
+Include
+
+This component retrieves its content from a URL.
+
+<Include url="http://foxnews.com/xmlfeed/rss/0,4313,0,00.rss" />

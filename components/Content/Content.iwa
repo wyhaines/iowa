@@ -1,0 +1,143 @@
+require 'thread'
+class Content < Iowa::DetachedComponent
+
+	# This component displays no content of its own.  Rather, it retrieves content
+	# from some content repository, called a library. The retrieveed content is
+	# treated like an IOWA template and is parsed with the TemplateParser.
+	# The parsed template is ccahed, and is used as the template for the component.
+	# Because the template content is parsed with the TemplateParser, that content
+	# may also have Content tags in it.  There is no limit to the depth of embedding
+	# which will be traversed.
+	
+	@mutex = Mutex.new
+
+	attr_accessor :content, :predecessors
+	
+	def Content.default_cache_size; 100; end
+	def Content.default_cache_ttl; nil; end
+	
+	class ConfObj_ < Hash
+		def library; @library; end
+		def library=(val); self[val] ||= {}; @library = val; end
+
+		def query; self[@library][:query]; end
+		def query=(val); self[@library][:query] = val; end
+		def retrieve; self[@library][:retrieve]; end
+		def retrieve=(val); self[@library][:retrieve] = val; end
+
+		def cache; self[@library][:cache]; end
+		def cache=(args)
+			#self[@library][:cache] = Util.get_cache(args,{Cmaxsize => Content.default_cache_size, Cttl => Content.default_cache_ttl})
+			self[@library][:cache] = Util.get_cache(args)
+		end
+	end
+
+	@confobj = ConfObj_.new
+
+	# The Content component can serev content from multiple libraries
+	# at he same time.  To set or reference a configuration item for
+	# a given library, pass it's name as an argument to Content.config.
+	# i.e. Content.config('generaldb').cache = Hash.new
+	#
+	def Content.config(library = C_default)
+		if block_given?
+			@mutex.synchronize do
+				begin
+					oldlib = @confobj.library
+					@confobj.library = library
+					yield @confobj
+				ensure
+					@confobj.library = oldlib
+				end
+			end
+		else
+			@confobj.library = library
+			@confobj
+		end
+	end
+
+	# Default cache is a basic LRUCache.
+	Content.config.cache = [:LRUCache, {:maxsize => 100}]
+
+	# Default query mechanism is flatfile based, looking in
+	# #{Iowa.app.root_path}/_content
+	Content.config.query = Proc.new do |name, attributes|
+		File.stat(File.join(Iowa.app.root_path,C_content,name)).mtime
+	end
+
+	Content.config.retrieve = Proc.new do |name, attributes|
+		r = {}
+		name.gsub!(/[\\\/]/,File::SEPARATOR)
+		filename = File.join(Iowa.app.root_path,C_content,name)
+		# Race condition here....
+		r[Cchecksum] = r[Clast_modification] = File.stat(filename).mtime
+		r[Clabel] = name
+		r[Ctitle],r[Cbody] =File.read(filename).split(/\n/,2)
+		r
+	end
+
+	def initialize(*args)
+		super(*args)
+		@dataname = @bindings.has_key?('id') ? getBinding('id') : @name
+		@predecessors = {@dataname => true}
+		if @parent.respond_to?(:predecessors)
+			@predecessors.merge! @parent.predecessors
+		end
+	end
+
+	def setup
+		parsed_template = nil
+		library = @attributes[Clibrary] || C_default
+		Content.config(library) do |content_config|
+			cache_entry = content_config.cache[@dataname]
+		
+			if !cache_entry or (cache_entry and cache_entry[0] != content_config.query.call(@dataname, @attributes, session)) or session.context.request.params.has_key?(Crefresh) or @attributes[Crefresh] =~ /(true|enabled)/
+
+				cobj = content_config.retrieve.call(@dataname, @attributes, session)
+				my_content = generate_wrapped_content(cobj)
+				parsed_template = TemplateParser.new(my_content,{},self.class).root
+				content_config.cache[@dataname] = [cobj[Cchecksum], parsed_template]
+			else
+				parsed_template = cache_entry[1]
+			end
+		end
+
+		# This prevents infinite loops.
+		if @parent.respond_to?(:predecessors) and @parent.predecessors[@dataname]
+			@template = TemplateParser.new(C_empty,{}).root
+		else
+			@template = parsed_template
+		end
+	end
+
+	def generate_wrapped_content(content)
+		_container = true
+		_title = false
+		_content = true
+		_container = false if @attributes['showcontainer'] =~ /^\s*(disabled|0|false)\s*$/
+		_title = false if @attributes['showtitle'] =~ /^\s*(disabled|0|false)\s*$/
+		_content = false if @attributes['showcontent'] =~ /^\s*(disabled|0|false)\s*$/
+		r = ''
+		r << "<div class=\"#{@attributes['class']||container_ctnt}\">" if _container
+		r << "<div class=\"#{@attributes['titleclass']||title_ctnt}\">#{content[Ctitle]}</div>" if _title
+		r << "<div class=\"#{@attributes['contentclass']||content_ctnt}\">#{content[Cbody]}</div>" if _content
+		r << "</div>" if _container
+		r
+	end
+
+	def container_ctnt
+		#"#{@dataname}_container_ctnt"
+		"container_ctnt"
+	end
+
+	def title_ctnt
+		#"#{@dataname}_title_ctnt"
+		"title_ctnt"
+	end
+
+	def content_ctnt
+		#"#{@dataname}_content_ctnt"
+		"content_ctnt"
+	end
+
+end

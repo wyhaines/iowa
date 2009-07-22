@@ -1,0 +1,15 @@
+import 'Header'
+import 'Footer'
+
+class Main < Iowa::Component
+
+	def setup
+		session.context[:side] = session.context.cookies.has_key?(::Cdirexion_id) ? :priv : :pub
+		session.context.response.status = 404
+	end
+
+	def requested_uri
+		session.context.request.uri
+	end
+end
+

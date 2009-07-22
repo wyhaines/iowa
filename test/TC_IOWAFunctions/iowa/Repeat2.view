@@ -1,0 +1,11 @@
+Repeat2: Repeat Testing
+
+test 2:
+
+<p>Raw Array: @twa</p>
+<form oid="reload">
+<repeat oid="test2">
+	<input type="text" oid="test_item" /><br />
+</repeat>
+<input type="submit" oid="reload" />
+</form>

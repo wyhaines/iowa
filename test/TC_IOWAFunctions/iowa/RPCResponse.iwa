@@ -1,0 +1,7 @@
+class RPCResponse < Iowa::Component
+	attr_accessor :data
+
+	def cacheable
+		false
+	end
+end

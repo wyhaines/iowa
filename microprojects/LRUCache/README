@@ -1,0 +1,13 @@
+Iowa::Caches::LRUCache v. 0.99.2.9
+
+Iowa::Caches::LRUCache implements an efficient LRU cache, based on a linked
+list.
+
+To install:
+
+ruby setup.rb
+
+
+To test:
+
+ruby setup.rb test

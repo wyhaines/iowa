@@ -1,0 +1,60 @@
+Here's a quick primer on how to get use DRb over SSL.
+
+1) Modify qc_config to suit.  The host I'm writing this on is
+   named 'uriel', and my email address is 'drbrain@segment7.net',
+   so I filled in the proper entries in the server and client
+   certs.
+
+  full_hostname = `hostname`.strip
+  domainname = full_hostname.split('.')[1..-1].join('.')
+  hostname = full_hostname.split('.')[0]
+
+  CA[:hostname] = hostname
+  CA[:domainname] = domainname
+  CA[:CA_dir] = File.join Dir.pwd, "CA"
+  CA[:password] = '1234'
+
+  CERTS << {
+    :type => 'server',
+    :hostname => 'uriel',
+    :password => '5678',
+  }
+
+  CERTS << {
+    :type => 'client',
+    :user => 'drbrain',
+    :email => 'drbrain@segment7.net',
+  }
+
+2) Generate the certificates (this may take a while on slower
+   machines).
+
+  QuickCert
+
+3) Setup the DRb server to use the proper certificates.  They are
+   already setup for 'uriel', so you'll have to edit drbssl_s.rb
+   to match your configuration.
+
+  cd uriel
+  ln -s ../drbssl_s.rb
+  ln -s ../CA/cacert.pem
+  vi drbssl_s.rb
+
+4) Start the DRb server.  You'll need the server certificate's
+   passphrase.
+
+  ruby drbssl_s.rb
+
+5) Setup the DRb client to use the proper certificates.  They are
+   already setup for 'drbrain@segment7.net', so you'll have to
+   edit drbssl_c.rb to match your configuration.
+
+  cd drbrain
+  ln -s ../drbssl_c.rb
+  ln -s ../CA/cacert.pem
+  vi drbssl_c.rb
+
+6) Start the DRb client.  Then type your name and hit enter.  You
+   will get back a message "Hello, <your name>"
+
+  ./drbssl_c.rb

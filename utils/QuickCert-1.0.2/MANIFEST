@@ -1,0 +1,10 @@
+MANIFEST
+Makefile
+README
+setup.rb
+bin/QuickCert
+lib/QuickCert/defaults.rb
+data/examples/ruby/QuickCert/README
+data/examples/ruby/QuickCert/qc_config
+data/examples/ruby/QuickCert/drbssl_s.rb
+data/examples/ruby/QuickCert/drbssl_c.rb

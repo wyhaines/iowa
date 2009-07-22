@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>Ajax 1</title>
+		<script type="text/javascript" src="/js/dojo.js"></script>
+		<script type="text/javascript">
+function getTime() {
+	dojo.io.bind({
+url: "<url oid="get_time" id="get_time"/>",
+load: function(type, data, evt) {document.getElementById('time_spot').innerHTML = data},
+mimetype: "text/html"});
+}
+		</script>
+	</head>
+
+	<body>
+		<h1>Simple Request</h1>
+		<input type="button" value="Get The Time" onclick="getTime()" />
+		<div id="time_spot"></div>
+
+		<h1>Form Request</h1>
+		<form oid="x_days_from_now" id="x_days_from_now">
+			<p>Enter the interval to calculate: <input type="text" oid="interval" size="10" maxlength="10" /></p>
+		</form>
+		<script type="text/javascript">
+function getInterval() {
+	dojo.io.bind({
+url: "@url_for_id.x_days_from_now",
+load: function(type, data, evt) {document.getElementById('interval_spot').innerHTML = data},
+formNode: document.getElementById("x_days_from_now")});
+}
+		</script>
+		<p onclick="getInterval()" onmouseover="this.style.color='#ff0000'" onmouseout="this.style.color='#000000'">Click here to calculate the interval.</p>
+		<br />
+		<div id="interval_spot"></div>
+
+		<h1>Dynamic AJAX Response</h1>
+		<ajaxwidget oid="widget1" />
+
+	</body>
+</html>

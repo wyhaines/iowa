@@ -1,0 +1,56 @@
+README
+
+QuickCert allows you to quickly and easily create SSL
+certificates.  It uses a simple configuration file to generate
+self-signed client and server certificates.
+
+QuickCert is a compilation of NAKAMURA Hiroshi's post to
+ruby-talk number 89917:
+
+http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/89917
+
+the example scripts referenced in the above post, and
+gen_csr.rb from Ruby's OpenSSL examples.
+
+QuickCert's homepage is:
+
+http://segment7.net/projects/ruby/QuickCert.html
+
+USAGE
+
+A simple QuickCert configuration file looks like:
+
+  full_hostname = `hostname`.strip
+  domainname = full_hostname.split('.')[1..-1].join('.')
+  hostname = full_hostname.split('.')[0]
+
+  CA[:hostname] = hostname
+  CA[:domainname] = domainname
+  CA[:CA_dir] = File.join Dir.pwd, "CA"
+  CA[:password] = '1234'
+
+  CERTS << {
+    :type => 'server',
+    :hostname => 'uriel',
+    :password => '5678',
+  }
+
+  CERTS << {
+    :type => 'client',
+    :user => 'drbrain',
+    :email => 'drbrain@segment7.net',
+  }
+
+This configuration will create a Certificate Authority in a
+'CA' directory in the current directory, a server certificate
+with password '5678' for the server 'uriel' in a directory
+named 'uriel', and a client certificate for drbrain in the
+directory 'drbrain' with no password.
+
+There are additional SSL knobs you can tweak in the
+qc_defaults.rb file.
+
+To generate the certificates, simply create a qc_config file
+where you want the certificate directories to be created, then
+run QuickCert.
+

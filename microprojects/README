@@ -1,0 +1,8 @@
+These are standalone versions of pieces of IOWA that may be useful on their
+own.  Here is where you will find them.  Each is self contained and does
+not require IOWA to be installed in order to operate.
+
+Each project is still being kept within the Iowa namespace so that the
+potential for a namespace collision is reduced.  I recognize that this
+means a few extra keystrokes are required to use one of these, but I
+feel the protection against namespace trainwrecks is worth it.

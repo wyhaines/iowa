@@ -1,0 +1,13 @@
+<form oid="handleForm" class="IWACL">
+<table class="IWACLtable" border="1">
+<if oid="doHeader?">	<tr>
+		<if oid="doOpt1?"><th></th></if><repeat oid="header_list"><th>@column_header</th></repeat><if oid="doOpt2?"><th></th></if>
+	</tr></if>
+<repeat oid="record_list">	<tr>
+<if oid="doOpt1?">		<td><input type="submit" oid="do_opt1_button" value="<opt1_label>"></td></if>
+		<repeat oid="field_list"><td>@field</td></repeat>
+<if oid="doOpt2?">		<td><input type="submit" oid="do_opt2_button" value="<opt2_label>"></td></if>
+	</tr>
+</repeat>
+</table>
+</form>

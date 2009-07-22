@@ -1,0 +1,33 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+IOWA is a web development framework for Ruby.
+
+IOWA started life around more than 5 years ago as an experiment by Avi
+Bryant.  He was exploring many of the ideas that he would later revisit
+when he wrote the Smalltalk web development framework, Seaside.
+
+Around 5 years ago I was just beginning to learn Ruby.  I loved what I
+saw with the language, coming from Perl, so I was starting to look for
+a reason to actually do something with the language.
+
+Soon after, I was given a contract job to develop a web site for the
+Milwaukee Chamber of Commerce -- a variation on a job search web site
+aimed at companies and college students looking for interns and
+internships.  I wanted to use Ruby for the job, so I started looking
+around at what was available for that task.  Coming from Perl, where
+there were multiple frameworks, and where I had implemented my own
+framework at a previous company, the state of the art for Ruby was
+pretty barren.  There was CGI.rb, but that road didn't thrill me.  There
+was Cerise, but it didn't capture my imagination, either.
+
+Then I came across Avi's little experiment, IOWA.  It was a breath of
+fresh air.  Clean, simple, and powerful.  I immediately saw potential
+in it.  It was unusable, though.  IOWA 0.14 just didn't have the
+necessary feature set or deployment infrastructure to really be usable
+for a production site.  I was hooked, though, so I started hacking.
+
+The job site came together pretty well -- better than I had ever
+experienced with a Perl solution, and it served to convince me of the
+merit of the IOWA approach.  I haven't looked back since, and in total
+have developed somewhere around 100 different dynamic web sites and web
+applications with it, developing on it as necessary in order to support
+my real-world needs.

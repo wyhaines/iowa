@@ -1,0 +1,19 @@
+socket:
+  hostname: 127.0.0.1
+  port: 2000
+logging:
+  basedir: ../log
+  minlevel: 0
+  maxsize: 10000000
+  maxage: 86400
+application:
+  daemonize: true
+  sessioncache:
+    class: LRUCache
+    maxsize: 20
+    ttl: 3600
+  dispatcher:
+    class: StandardDispatcher
+    mapfile: mapfile.cnf
+  policy:
+    class: iowa/Policy

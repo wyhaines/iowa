@@ -1,0 +1,22 @@
+<div id="dynamic_counter">
+		<script type="text/javascript">
+function incrementCounter() {
+	dojo.io.bind({
+url: "<url oid="increment_counter" id="increment_counter" />",
+load: function(type, data, evt) {document.getElementById('dynamic_counter').innerHTML = data},
+mimetype: "text/html"});
+}
+
+function decrementCounter() {
+	dojo.io.bind({
+url: "<url oid="decrement_counter" />",
+load: function(type, data, evt) {document.getElementById('dynamic_counter').innerHTML = data},
+mimetype: "text/html"});
+}
+		</script>
+	<p>Use the <b>+</b> and <b>-</b> buttons to change the counter.</p>
+
+	@counter<br /><br />
+
+	<input type="button" value="+" onclick="incrementCounter()" />&nbsp;&nbsp;<input type="button" value="-" onclick="decrementCounter()" />
+</div>

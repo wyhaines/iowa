@@ -1,0 +1,17 @@
+Almost a skeleton of an app, this is the ever beloved
+"Hello World" with a touch of the dynamic thrown in.
+To run it:
+
+cd iowa
+ruby iowa_hello_world.rb -r webrick
+
+Then point your web browser at
+
+http://127.0.0.1:2000
+
+By default, this application will be running using the webrick web server.
+If you have installed Mongrel (gem install mongrel), though, you may
+also run it with Mongrel:
+
+ruby iowa_hello_world.rb -r mongrel
+

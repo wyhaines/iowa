@@ -1,0 +1,30 @@
+require 'net/http'
+
+class Include < Iowa::Component
+
+	attr_reader :content
+
+	def setup
+		@content = get_url(@attributes['url'].to_s)
+	end
+
+	def get_url(url)
+		url = "#{application.root_url}#{url}" unless /^\w+:\/\//.match(url)
+		tries = 0
+		response = nil
+		if /^http/.match(url)
+			m = /^http:\/\/([^\/]*)(.*)/.match(url)
+			site = m[1]
+			path = m[2]
+			begin
+				http = Net::HTTP.new(site)
+				http.open_timeout = 30
+				http.start {|h| response = h.get(path)}
+			rescue Exception
+				tries += 1
+				retry if tries < 5
+			end
+		end
+		response.kind_of?(Array) ? response[1] : response.respond_to?(:body) ? response.body : ''
+	end
+end

@@ -1,0 +1,7 @@
+class Main < Iowa::Component
+
+	def now
+		Time.now.asctime
+	end
+	
+end

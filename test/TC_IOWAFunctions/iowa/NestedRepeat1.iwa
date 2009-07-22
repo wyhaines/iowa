@@ -1,0 +1,24 @@
+class NestedRepeat1 < Iowa::Component
+
+  attr_accessor :group, :item, :last_item
+
+	def awake
+   @list = %w(a1 a2 a3 a4 b1 b2 b3 b4 c1 c2 c3 c4)
+	 @last_item = 'nil'
+  end
+
+  def groups
+    @groups ||= @list.collect {|x| x[1,1]}.uniq
+  end
+
+  def items
+		Logger['iowa_log'].info "Setting items for #{@group} to #{@list.select {|x| x[1,1] == @group}}"
+    @list.select {|x| x[1,1] == @group}
+  end
+
+  #proceed_with(:goEdit, 'Editor') {|p| p.target = @item}
+	def goEdit
+		@last_item = @item
+	end
+
+end

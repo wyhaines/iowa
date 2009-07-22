@@ -1,0 +1,44 @@
+class Repeat3 < Iowa::Component
+
+	def awake
+		@tl3a = [1,2,3,4,5].collect {|x| x.to_s}
+		@tl3b = [6,7,8,9,10].collect {|x| x.to_s}
+	end
+
+	def twa
+		@tl3a.inspect
+	end
+
+	def twb
+		@tl3b.inspect
+	end
+
+	def test_item
+		@test_item
+	end
+
+	def test_item=(val)
+		@test_item = val
+	end
+
+	def test_list3a
+		@tl3a
+	end
+
+	def test_list3b
+		@tl3b
+	end
+
+end
+
+<?
+	test3 {
+		item = test_item
+		list = test_list3a
+	}
+
+	test3b {
+		item = test_item
+		list = test_list3b
+	}
+?>

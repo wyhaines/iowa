@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: ChangeLog</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>ChangeLog</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>ChangeLog
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Aug 17 12:27:55 CDT 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../classes/MIME/Types.html">MIME::Types</a> Change Log</h1>
+<p>
+Unless explicitly stated differently are all changes produced by Austin
+Ziegler &lt;mime-types@halostatue.ca&gt;.
+</p>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.15</h2>
+<ul>
+<li>Removed lib/mime/type.rb to form a single <a
+href="../classes/MIME/Types.html">MIME::Types</a> database source. It is
+unlikely that one will ever need <a
+href="../classes/MIME/Type.html">MIME::Type</a> without <a
+href="../classes/MIME/Types.html">MIME::Types</a>.
+
+</li>
+<li>Re-synchronized the <a href="../classes/MIME.html">MIME</a> type list with
+the sources, focusing primarily on the IANA list.
+
+</li>
+<li>Added more detailed source information for <a
+href="../classes/MIME/Type.html">MIME::Type</a> objects.
+
+</li>
+<li>Changed <a href="../classes/MIME/Types.html">MIME::Types</a> from a module
+to a class with a default instance. There should be no difference in usage.
+
+</li>
+<li>Removed MIME::Types::DATA_VERSION; it is now an attribute on the <a
+href="../classes/MIME/Types.html">MIME::Types</a> instance.
+
+</li>
+<li>NOTE: Synchronization with the Perl version of <a
+href="../classes/MIME/Types.html">MIME::Types</a> is no longer a priority
+as of this release. The data format and information has changed.
+
+</li>
+<li>Removed MIME::Types.by_suffix and MIME::Types.by_mediatype.
+
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.13.1</h2>
+<ul>
+<li>Fixed a problem with the installer running tests. This now works.
+
+</li>
+<li>Improved the implementation of MIME::Type.signature?
+
+</li>
+<li>Moved code around to use the class &lt;&lt; self idiom instead of always
+prepending the module/class name.
+
+</li>
+<li>Added two new best-guess implementations of functions found in Perl&#8217;s
+<a href="../classes/MIME/Types.html">MIME::Types</a> implementation (1.13).
+Do not rely on these until the purpose and implementation is stabilised.
+
+</li>
+<li>Updated the <a href="../classes/MIME.html">MIME</a> list to reflect changes
+noted by Ville Skyttä &lt;ville.skytta@iki.fi&gt;.
+
+</li>
+<li>Added a new constant to <a
+href="../classes/MIME/Types.html">MIME::Types</a>, DATA_VERSION. This will
+allow the Ruby version number to be updated separately from the Perl
+version while keeping the <a href="../classes/MIME.html">MIME</a> Type list
+version in sync.
+
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.13</h2>
+<pre>
+  ! WARNING: This version changes the API of MIME::Types !
+  ! WARNING: This version is compatible with Ruby 1.8 and higher ONLY !
+</pre>
+<ul>
+<li>Removed dependency on InstallPackage; offering 1.13 as either .tar.gz or
+.gem.
+
+</li>
+<li>Split into two files, mime/type.rb and mime/types.rb. This will make
+maintaining the list of changes easier.
+
+</li>
+<li>Changed the <a href="../classes/MIME/Type.html">MIME::Type</a> construction
+API. Accepts only a single String argument (but does no named
+type-checking) and yields self.
+
+</li>
+<li>Removed private methods init_extensions, init_encoding, and init_system and
+replaced with extensions=, encoding=, and system=.
+
+</li>
+<li>Added default_encoding to return &#8216;quoted-printable&#8217; or
+&#8216;base64&#8217; depending on the media type of the <a
+href="../classes/MIME.html">MIME</a> type.
+
+</li>
+<li>Added raw_media_type and raw_sub_type to provide the non-simplified
+versions of the media type and subtype.
+
+</li>
+<li>Alternative constructors <a
+href="../classes/MIME/Type.html#M000017">MIME::Type.from_array</a>, <a
+href="../classes/MIME/Type.html#M000018">MIME::Type.from_hash</a>, and <a
+href="../classes/MIME/Type.html#M000019">MIME::Type.from_mime_type</a>
+added to compensate for the removal of named type checking in the original
+constructor.
+
+</li>
+<li>Added to_str, to_a, and to_hash methods. The latter two will provide output
+suitable for use in from_array and from_hash.
+
+</li>
+<li>Removed &quot;binary&quot; encoding and enforced the use of a valid
+encoding string.
+
+</li>
+<li>Added system? returning true if the <a
+href="../classes/MIME/Type.html">MIME::Type</a> is an OS-specific <a
+href="../classes/MIME/Type.html">MIME::Type</a>.
+
+</li>
+<li>Added platform? returning true if the <a
+href="../classes/MIME/Type.html">MIME::Type</a> is an OS-specific <a
+href="../classes/MIME/Type.html">MIME::Type</a> for the current
+RUBY_PLATFORM.
+
+</li>
+<li>Added like? returning true if the simplified type matches the other value
+provided.
+#&lt;&#8217;application/x-excel&#8217;&gt;.like?(&#8216;application/excel&#8217;)
+is true.
+
+</li>
+<li>Added complete? returning true if the <a
+href="../classes/MIME/Type.html">MIME::Type</a> specifies an extension
+list.
+
+</li>
+<li>Updated the <a href="../classes/MIME.html">MIME</a> type list to reflect
+additions by Mark Overmeer for Perl&#8217;s <a
+href="../classes/MIME/Types.html">MIME::Types</a> 1.12 and the official
+IANA list as of 2004.04.06. A number of formerly &quot;registered&quot; <a
+href="../classes/MIME.html">MIME</a> types are now no longer registered
+(e.g., application/excel is now application/x-excel). This ensures that the
+simplified type still works with applications, but does not report an
+unregistered type as registered.
+
+</li>
+<li>Restored <a href="../classes/MIME.html">MIME</a> type list to Mark
+Overmeer&#8217;s format to facilitate easy exchange between the two
+projects.
+
+</li>
+<li>Added additional unit tests from Mark Overmeer&#8217;s 1.12 version.
+
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.07</h2>
+<ul>
+<li>Changed version numbering to match Perl <a
+href="../classes/MIME/Types.html">MIME::Types</a> 1.07.
+
+</li>
+<li>Re-synchronized with Mark Overmeer&#8217;s list in Perl PMIME::Types 1.07.
+
+<pre>
+      - [NN Poster] updated the attributes for the PGP types.
+</pre>
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.005</h2>
+<ul>
+<li>Changed to Phil Thomson&#8217;s InstallPackage.
+
+</li>
+<li>Added several types from Perl <a
+href="../classes/MIME/Types.html">MIME::Types</a> 1.005.
+
+</li>
+<li>Cleaned up data format; some data formats will show up with proper data
+now.
+
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.004</h2>
+<ul>
+<li>Updated to match Perl <a href="../classes/MIME/Types.html">MIME::Types</a>
+1.004, links credited to Dan Puro. Adds new reference list to <a
+href="http://www.indiana.edu/cgi-bin-local/mimetypes">www.indiana.edu/cgi-bin-local/mimetypes</a>
+
+</li>
+<li>Removed InvalidType and replaced with TypeError.
+
+</li>
+<li>Changed instances of type to class.
+
+</li>
+<li>Cleaned up how simplified versions are created.
+
+</li>
+</ul>
+<h2><a href="../classes/MIME/Types.html">MIME::Types</a> 1.003</h2>
+<ul>
+<li>Initial release based on Perl <a
+href="../classes/MIME/Types.html">MIME::Types</a> 1.003.
+
+</li>
+</ul>
+<p>
+#&#8212; # <a href="../classes/MIME/Types.html">MIME::Types</a> for Ruby #
+<a
+href="http://rubyforge.org/projects/mime-types">rubyforge.org/projects/mime-types</a>/
+# Copyright 2003 - 2006 Austin Ziegler. # Licensed under a MIT-style
+licence. # # $Id: ChangeLog,v 1.3 2006/02/12 21:27:21 austin Exp $ #++ #
+vim: sts=2 sw=2 ts=4 et ai tw=77
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

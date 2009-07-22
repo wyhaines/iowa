@@ -1,0 +1,6 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+
+IOWA is a component based web development framework.  This means that
+dynamic web sites and applications are built out of potentially reusable
+chunks.  An IOWA application runs as one or more persistent processes,
+like Rails, Nitro, and other common ruby web frameworks.

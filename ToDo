@@ -1,0 +1,21 @@
+	*	Expand the Policies available so that sessions can be tracked
+		via cookies, automatically.
+	*	Improve the parsing of custom tags so that kludges like:
+
+		<PageHeader oid="pageHeader"/>
+
+		are not needed.  Really, we shouldn't have to pass an oid
+		with an attribute if we aren't actually doing anything with it.
+
+		<PageHeader/>
+
+		would be great.  This requires a much smarter TemplateParser.
+	*	On this same note, improve the header so that it handles certain
+		kinds of nesting, such as
+
+		<!-- <PageHeader oid="pageHeader" /> -->
+
+		Or the use of CDATA sections that wrap IOWA tags.  Right now
+		both of those cause the parser to get confused.
+	
+

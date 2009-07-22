@@ -1,0 +1,6 @@
+rewrites:
+- match: /(?i-mx:index.htm)?$
+  sub: /index.html
+map:
+  /hello_world.html: HelloWorld
+  /index.html: Index

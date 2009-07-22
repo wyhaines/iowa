@@ -1,0 +1,5 @@
+class TesCon < Iowa::Component
+
+	def mn; getBinding('id') || @name; end
+
+end

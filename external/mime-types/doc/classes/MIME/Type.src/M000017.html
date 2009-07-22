@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>from_array (MIME::Type)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/mime/types.rb, line 275</span>
+275:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">from_array</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-comment cmt">#:yields MIME::Type.new:</span>
+276:         <span class="ruby-comment cmt"># Dereferences the array one level, if necessary.</span>
+277:         <span class="ruby-identifier">args</span> = <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+278: 
+279:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">1</span>, <span class="ruby-value">8</span>)
+280:           <span class="ruby-identifier">m</span> = <span class="ruby-constant">MIME</span><span class="ruby-operator">::</span><span class="ruby-constant">Type</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">args</span>[<span class="ruby-value">0</span>]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+281:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">extensions</span>  = <span class="ruby-identifier">args</span>[<span class="ruby-value">1</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+282:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">encoding</span>    = <span class="ruby-identifier">args</span>[<span class="ruby-value">2</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>
+283:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">system</span>      = <span class="ruby-identifier">args</span>[<span class="ruby-value">3</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>
+284:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">obsolete</span>    = <span class="ruby-identifier">args</span>[<span class="ruby-value">4</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>
+285:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">docs</span>        = <span class="ruby-identifier">args</span>[<span class="ruby-value">5</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">5</span>
+286:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">url</span>         = <span class="ruby-identifier">args</span>[<span class="ruby-value">6</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">6</span>
+287:             <span class="ruby-identifier">t</span>.<span class="ruby-identifier">registered</span>  = <span class="ruby-identifier">args</span>[<span class="ruby-value">7</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">7</span>
+288:           <span class="ruby-keyword kw">end</span>
+289:           <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">m</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+290:         <span class="ruby-keyword kw">else</span>
+291:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-value str">&quot;Array provided must contain between one and eight elements.&quot;</span>
+292:         <span class="ruby-keyword kw">end</span>
+293:         <span class="ruby-identifier">m</span>
+294:       <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

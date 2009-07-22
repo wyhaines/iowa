@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: MIME::Types</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">MIME::Types</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/mime/types_rb.html">
+                lib/mime/types.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="Types.html">MIME::Types</a></h1>
+<p>
+<a href="../MIME.html">MIME</a> types are used in <a
+href="../MIME.html">MIME</a>-compliant communications, as in e-mail or HTTP
+traffic, to indicate the type of content which is transmitted. <a
+href="Types.html">MIME::Types</a> provides the ability for detailed
+information about <a href="../MIME.html">MIME</a> entities (provided as a
+set of <a href="Type.html">MIME::Type</a> objects) to be determined and
+used programmatically. There are many types defined by RFCs and vendors, so
+the list is long but not complete; don&#8217;t hesitate to ask to add
+additional information. This library follows the IANA collection of <a
+href="../MIME.html">MIME</a> types (see below for reference).
+</p>
+<h2>Description</h2>
+<p>
+<a href="../MIME.html">MIME</a> types are used in <a
+href="../MIME.html">MIME</a> entities, as in email or HTTP traffic. It is
+useful at times to have information available about <a
+href="../MIME.html">MIME</a> types (or, inversely, about files). A <a
+href="Type.html">MIME::Type</a> stores the known information about one <a
+href="../MIME.html">MIME</a> type.
+</p>
+<h2>Usage</h2>
+<pre>
+ require 'mime/types'
+
+ plaintext = MIME::Types['text/plain']
+ print plaintext.media_type           # =&gt; 'text'
+ print plaintext.sub_type             # =&gt; 'plain'
+
+ puts plaintext.extensions.join(&quot; &quot;)  # =&gt; 'asc txt c cc h hh cpp'
+
+ puts plaintext.encoding              # =&gt; 8bit
+ puts plaintext.binary?               # =&gt; false
+ puts plaintext.ascii?                # =&gt; true
+ puts plaintext.obsolete?             # =&gt; false
+ puts plaintext.registered?           # =&gt; true
+ puts plaintext == 'text/plain'       # =&gt; true
+ puts MIME::Type.simplified('x-appl/x-zip') # =&gt; 'appl/zip'
+</pre>
+<p>
+This module is built to conform to the <a href="../MIME.html">MIME</a>
+types of RFCs 2045 and 2231. It follows the official IANA registry at <a
+href="http://www.iana.org/assignments/media-types">www.iana.org/assignments/media-types</a>/
+and <a
+href="ftp://ftp.iana.org/assignments/media-types">ftp.iana.org/assignments/media-types</a>
+with some unofficial types added from the the collection at <a
+href="http://www.ltsw.se/knbase/internet/mime.htp">www.ltsw.se/knbase/internet/mime.htp</a>
+</p>
+<p>
+This is originally based on Perl <a href="Types.html">MIME::Types</a> by
+Mark Overmeer.
+</p>
+<h1>Author</h1>
+<table>
+<tr><td valign="top">Copyright:</td><td>Copyright &#169; 2002 - 2006 by Austin Ziegler &lt;austin@rubyforge.org&gt;
+
+</td></tr>
+<tr><td valign="top">Version:</td><td>1.15
+
+</td></tr>
+<tr><td valign="top">Based On:</td><td>Perl <a
+href="http://search.cpan.org/author/MARKOV/MIME-Types-1.15/MIME/Types.pm">MIME::Types</a>,
+Copyright &#169; 2001 - 2005 by Mark Overmeer
+&lt;mimetypes@overmeer.net&gt;.
+
+</td></tr>
+<tr><td valign="top">Licence:</td><td>Ruby&#8217;s, Perl Artistic, or GPL version 2 (or later)
+
+</td></tr>
+<tr><td valign="top">See Also:</td><td><a
+href="http://www.iana.org/assignments/media-types">www.iana.org/assignments/media-types</a>/
+<a
+href="http://www.ltsw.se/knbase/internet/mime.htp">www.ltsw.se/knbase/internet/mime.htp</a>
+
+</td></tr>
+</table>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000006">[]</a>&nbsp;&nbsp;
+      <a href="#M000002">[]</a>&nbsp;&nbsp;
+      <a href="#M000009">add</a>&nbsp;&nbsp;
+      <a href="#M000005">add</a>&nbsp;&nbsp;
+      <a href="#M000001">new</a>&nbsp;&nbsp;
+      <a href="#M000008">of</a>&nbsp;&nbsp;
+      <a href="#M000004">of</a>&nbsp;&nbsp;
+      <a href="#M000003">type_for</a>&nbsp;&nbsp;
+      <a href="#M000007">type_for</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">'1.15'</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+The released version of Ruby <a href="Types.html">MIME::Types</a>
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">data_version</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The data version.
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000006.html');return false;">
+          <span class="method-name">[]</span><span class="method-args">(type_id, flags = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a list of <a href="Type.html">MIME::Type</a> objects, which may be
+empty. The optional flag parameters are :complete (finds only complete <a
+href="Type.html">MIME::Type</a> objects) and :platform (finds only <a
+href="Types.html">MIME::Types</a> for the current platform). It is possible
+for multiple matches to be returned for either type (in the example below,
+&#8216;text/plain&#8217; returns two values &#8212; one for the general
+case, and one for VMS systems.
+</p>
+<pre>
+  puts &quot;\nMIME::Types['text/plain']&quot;
+  MIME::Types['text/plain'].each { |t| puts t.to_a.join(&quot;, &quot;) }
+
+  puts &quot;\nMIME::Types[/^image/, :complete =&gt; true]&quot;
+  MIME::Types[/^image/, :complete =&gt; true].each do |t|
+    puts t.to_a.join(&quot;, &quot;)
+  end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000009.html');return false;">
+          <span class="method-name">add</span><span class="method-args">(*types)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add one or more <a href="Type.html">MIME::Type</a> objects to the set of
+known types. Each type should be experimental (e.g.,
+&#8216;application/x-ruby&#8217;). If the type is already known, a warning
+will be displayed.
+</p>
+<p>
+<b>Please inform the maintainer of this module when registered types are
+missing.</b>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000001" class="method-detail">
+        <a name="M000001"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000001.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000001.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(data_version = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000008.html');return false;">
+          <span class="method-name">of</span><span class="method-args">(filename, platform = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A synonym for <a href="Types.html#M000003">MIME::Types.type_for</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000007.html');return false;">
+          <span class="method-name">type_for</span><span class="method-args">(filename, platform = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return the list of <a href="Types.html">MIME::Types</a> which belongs to
+the file based on its filename extension. If <tt>platform</tt> is
+<tt>true</tt>, then only file types that are specific to the current
+platform will be returned.
+</p>
+<pre>
+  puts &quot;MIME::Types.type_for('citydesk.xml')
+    =&gt; &quot;#{MIME::Types.type_for('citydesk.xml')}&quot;
+  puts &quot;MIME::Types.type_for('citydesk.gif')
+    =&gt; &quot;#{MIME::Types.type_for('citydesk.gif')}&quot;
+</pre>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000002" class="method-detail">
+        <a name="M000002"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000002.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000002.html');return false;">
+          <span class="method-name">[]</span><span class="method-args">(type_id, flags = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a list of <a href="Type.html">MIME::Type</a> objects, which may be
+empty. The optional flag parameters are :complete (finds only complete <a
+href="Type.html">MIME::Type</a> objects) and :platform (finds only <a
+href="Types.html">MIME::Types</a> for the current platform). It is possible
+for multiple matches to be returned for either type (in the example below,
+&#8216;text/plain&#8217; returns two values &#8212; one for the general
+case, and one for VMS systems.
+</p>
+<pre>
+  puts &quot;\nMIME::Types['text/plain']&quot;
+  MIME::Types['text/plain'].each { |t| puts t.to_a.join(&quot;, &quot;) }
+
+  puts &quot;\nMIME::Types[/^image/, :complete =&gt; true]&quot;
+  MIME::Types[/^image/, :complete =&gt; true].each do |t|
+    puts t.to_a.join(&quot;, &quot;)
+  end
+</pre>
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000005.html');return false;">
+          <span class="method-name">add</span><span class="method-args">(*types)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Add one or more <a href="Type.html">MIME::Type</a> objects to the set of
+known types. Each type should be experimental (e.g.,
+&#8216;application/x-ruby&#8217;). If the type is already known, a warning
+will be displayed.
+</p>
+<p>
+<b>Please inform the maintainer of this module when registered types are
+missing.</b>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000004.html');return false;">
+          <span class="method-name">of</span><span class="method-args">(filename, platform = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+A synonym for <a href="Types.html#M000003">MIME::Types.type_for</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="Types.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('Types.src/M000003.html');return false;">
+          <span class="method-name">type_for</span><span class="method-args">(filename, platform = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Return the list of <a href="Types.html">MIME::Types</a> which belongs to
+the file based on its filename extension. If <tt>platform</tt> is
+<tt>true</tt>, then only file types that are specific to the current
+platform will be returned.
+</p>
+<pre>
+  puts &quot;MIME::Types.type_for('citydesk.xml')
+    =&gt; &quot;#{MIME::Types.type_for('citydesk.xml')}&quot;
+  puts &quot;MIME::Types.type_for('citydesk.gif')
+    =&gt; &quot;#{MIME::Types.type_for('citydesk.gif')}&quot;
+</pre>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

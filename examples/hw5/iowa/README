@@ -1,0 +1,16 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+ruby hw.rb -r webrick
+
+Remember that IOWA uses a component architecture.  And one of the best
+things about components is that they are easy to reuse.  In this
+example, instead of repeating the same pieces of header and footer
+HTML across more than one view file, those pieces have been extracted
+into their own components, Header and Footer.
+
+A little bit of new Ruby syntax is needed, here, in order to ensure
+that the needed components have been loaded by IOWA before they are
+needed.  Think of 'import' as a 'require' statement for components.
+
+Then, to actually use the component, just write a tag using the
+component name as the tag, and give it an oid.  IOWA uses the
+existence of oid attribute to signal to it that the tag is dynamic.

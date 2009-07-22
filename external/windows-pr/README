@@ -1,0 +1,145 @@
+This is a stripped down package of Daniel Berger's windows-pr library.
+This is version 0.5.3.
+
+The original can be found at Rubyforge at:
+
+http://rubyforge.org/projects/win32utils
+
+This library will be installed only if it is not already present on the
+appropriate platform.  The main setup.rb for IOWA takes care of it, including
+generation of ri documentation and the installation of the document in doc/ to:
+
+Config::CONFIG['datadir']/windows-pr
+
+Below is the original README
+
+-----
+
+= windows-pr
+== Description
+   A collection of Windows functions predefined for you via Win32API.  Hence,
+   the 'pr', for 'Pure Ruby'.
+   
+== Synopsis
+   require 'windows/path'
+   
+   class Foo
+      include Windows::Path
+   
+      if PathIsRoot.call("C:\\") > 0
+         ...
+      end
+      
+      # or
+      
+      if PathIsRoot("C:\\")
+         ...
+      end
+   end
+   
+== Methods
+   Each of the various files included as part of this package provide a series
+   of constants corresponding to the equivalent Windows API function and
+   related numeric constants.  For example, if you require 'windows/path',
+   you now have PathIsRoot, PathIsUNC, etc, available to you as Win32API
+   objects in the form of constants.
+   
+   A wrapper has been provided for each method in order to avoid the
+   Win32API#call method.  So, instead of PathIsRoot.call(path) you can
+   invoke it as PathIsRoot(path).  If the original function is lower case
+   then the wrapper method is lower case as well.  For example, instead of
+   doing 'Memcpy.call(dest, src, size)' you can do 'memcpy(dest, src, size)'.
+   
+   Remember boys and girls, if you write PathIsRoot, you're referring to
+   the constant.  If you write PathIsRoot(), you're calling the wrapper
+   method.
+   
+   Boolean methods automatically perform a check for success or failure.  So,
+   instead of having to do something like 'if PathIsRoot(path) > 0' you can
+   just do 'if PathIsRoot(path)'.
+   
+   Files contain related functions, by topic.  For example, the clipboard.rb
+   file contains clipboard related functions, such as CloseClipboard(), as
+   well as constants such as CF_TEXT, CF_BITMAP, etc.
+   
+== Wide character functions
+	I decided that the $KCODE handling was a bad idea, so most of the $KCODE
+	handling has been removed.  The only methods that change their behavior
+	based on $KCODE are the multi_to_wide and wide_to_multi helper methods
+	in the Windows::Unicode module.  If $KCODE is set to UTF8, then the code
+	point used is CP_UTF8.  Otherwise, CP_ACP is used.
+	
+	In the future I'll add the wide character functions explicitly.  I haven't
+	added many yet (as of 29-Jul-2006) but I plan on adding as many as I can
+	as time permits.
+   
+== Where are the tests, dude?
+   While I've made some effort to test these functions, there are simply too
+   many for me to effectively test them all.  We're ultimately talking about
+   hundreds, if not thousands, of functions, and I don't know what all of them
+   actually do.  That being said, I will add tests where and when I can.
+   
+   If you find that I've declared the function prototype wrong for a given
+   function, please let me know ASAP and I'll fix it.  An example program
+   demonstrating the problem would be helpful, too.  Or, if you'd just like
+   to contribute some test cases, that's fine as well.
+     
+== What's the point?
+   I became tired of redefining Windows functions over and over whenever I
+   wanted to use the Win32API package.  I thought it would be very handy to
+   have them predefined for me in a package with convenient wrapper methods
+   to boot.
+   
+   While it's true that Moonwolf has a package on the RAA that includes many
+   of these functions defined already, there are a few issues with it.  First,
+   it puts *every* function and constant in one or two files.  That's a waste
+   of memory, hard to organize & maintain, and impossible to test.  Second,
+   some of his function declarations are wrong.  Third, some of the functions
+   I needed for my own projects are missing.  Fourth, there's no gem.  Lastly,
+   I haven't seen an update in over 5 years, which leads me to believe it is
+   no longer maintained.
+   
+== Hey, I'm missing function X!
+   I have only defined a small subset of the overall Windows API.  It would
+   take me years to define them *all*.  I defined the ones I needed first,
+   plus some that I thought would be useful to others.  I will continue to
+   add functions in my spare time, or (especially) by request.
+   
+== Bugs
+   None that I'm aware of.  Please report any bugs on the project page at
+   http://www.rubyforge.org/projects/win32utils.
+   
+   The only real bugs you could find are either bad prototype declarations
+   or bad constant values.  But, please report either.
+   
+== Known Issues
+   In some cases the MSDN docs are wrong, and we have to learn it the hard
+   way.  If you should happen to find a documentation bug on their site,
+   please contact them and let them know.  They're generally good about fixing
+   them.
+   
+   In other cases library functions are not exported by the dll.  For example,
+   my version of shlwapi.dll does not export the PathIsHTMLFile() function,
+   despite being well past the minimum version for that dll file.  There is
+   nothing you or I can do about it short of rebuilding the dll file from
+   scratch and/or reporting the issue to Microsoft.
+   
+== Supported Platforms
+   I only support the Windows NT familiy of Windows, and really only Windows
+   2000 and later, though I'll make an effort to support NT 4 if there are
+   any NT 4 related issues and requests to support it.
+   
+== License
+   Ruby's
+   
+== Warranty
+   This package is provided "as is" and without any express or
+   implied warranties, including, without limitation, the implied
+   warranties of merchantability and fitness for a particular purpose.
+
+== Copyright
+   (C) 2006, Daniel J. Berger
+   All Rights Reserved
+   
+== Author
+   Daniel Berger

@@ -1,0 +1,19 @@
+class AjaxWidget < Iowa::Component
+
+	attr_accessor :counter
+
+	def replaceable; true; end
+	def fragment; true; end
+
+	def awake; @counter = 0; end
+
+	def increment_counter
+		@counter += 1
+		yield self
+	end
+
+	def decrement_counter
+		@counter -= 1
+		yield self
+	end
+end

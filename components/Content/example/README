@@ -1,0 +1,9 @@
+This is a very simple demo of the Content component.
+
+To access the demo:
+
+ruby demo.rb
+
+Then point your web browser at port 47990 if your system.
+
+To exit from the demo, use ctrl-c.

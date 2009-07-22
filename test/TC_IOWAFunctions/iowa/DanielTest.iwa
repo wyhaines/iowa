@@ -1,0 +1,10 @@
+class DanielTest < Iowa::Component
+  attr_accessor :numArray, :num
+
+  def awake
+    @num_of_links = rand(10) + 1
+    @numArray = Array.new()
+    @num_of_links.times {|i| @numArray << i }
+  end
+
+end

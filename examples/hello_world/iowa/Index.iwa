@@ -1,0 +1,5 @@
+class Index < Iowa::Component
+	def runmode
+		Iowa.runmode.to_s.capitalize
+	end
+end

@@ -1,0 +1,19 @@
+The StandardDispatcher is, as the name suggests, the standard dispatcher
+to use with most applications and web sites created under IOWA.  It provides
+a rich set of request rewriting capabilities and flexible, REST-aware
+dispatching that can make full use of the depth of HTTP's verbs.
+
+:rewrites:
+- :match: "{|request| request.hostname =~ /\.?foo\.com/}"
+  :branch: 
+  - :match: "(?i-mx:\.htm)$"
+    :sub: ".html"
+- :match: "{|request| request.hostname =~ /\.?bar\.com/}"
+  :branch:
+  - :match: "[A-Z]"
+    :eval: "request.uri.downcase!"
+:map:
+  /INDEX.html: CapIndex
+  /index.htm: Index
+  /INDEX.HTM: IndexHTM
+  /randompix.png: RandomPix

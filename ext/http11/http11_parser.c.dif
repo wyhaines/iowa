@@ -1,0 +1,193 @@
+*** /usr/local/ruby184/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/ext/http11/http11_parser.c	2006-12-30 14:55:52.000000000 -0600
+--- ./http11_parser.c	2007-01-15 08:54:29.000000000 -0600
+***************
+*** 113,119 ****
+  #line 34 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_method != NULL) 
+!       parser->request_method(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st3;
+  st3:
+--- 113,119 ----
+  #line 34 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_method != NULL) 
+!       parser->request_method(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st3;
+  st3:
+***************
+*** 152,182 ****
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr28:
+  #line 44 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->query_string != NULL)
+!       parser->query_string(parser->data, PTR_TO(query_start), LEN(query_start, p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr31:
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->data, PTR_TO(mark), LEN(mark,p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr40:
+--- 152,182 ----
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr28:
+  #line 44 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->query_string != NULL)
+!       parser->query_string(parser->paramdata, PTR_TO(query_start), LEN(query_start, p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr31:
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->paramdata, PTR_TO(mark), LEN(mark,p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  tr40:
+***************
+*** 185,196 ****
+  #line 44 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->query_string != NULL)
+!       parser->query_string(parser->data, PTR_TO(query_start), LEN(query_start, p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  st5:
+--- 185,196 ----
+  #line 44 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->query_string != NULL)
+!       parser->query_string(parser->paramdata, PTR_TO(query_start), LEN(query_start, p));
+    }
+  #line 38 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->request_uri != NULL)
+!       parser->request_uri(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st5;
+  st5:
+***************
+*** 270,283 ****
+  #line 49 "ext/http11/http11_parser.rl"
+  	{	
+      if(parser->http_version != NULL)
+!       parser->http_version(parser->data, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st14;
+  tr36:
+  #line 29 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->http_field != NULL) {
+!       parser->http_field(parser->data, PTR_TO(field_start), parser->field_len, PTR_TO(mark), LEN(mark, p));
+      }
+    }
+  	goto st14;
+--- 270,283 ----
+  #line 49 "ext/http11/http11_parser.rl"
+  	{	
+      if(parser->http_version != NULL)
+!       parser->http_version(parser->paramdata, PTR_TO(mark), LEN(mark, p));
+    }
+  	goto st14;
+  tr36:
+  #line 29 "ext/http11/http11_parser.rl"
+  	{ 
+      if(parser->http_field != NULL) {
+!       parser->http_field(parser->headerdata, PTR_TO(field_start), parser->field_len, PTR_TO(mark), LEN(mark, p));
+      }
+    }
+  	goto st14;
+***************
+*** 329,335 ****
+  	{ 
+      parser->body_start = p - buffer + 1; 
+      if(parser->header_done != NULL)
+!       parser->header_done(parser->data, p + 1, pe - p - 1);
+      goto _out53;
+    }
+  	goto st53;
+--- 329,335 ----
+  	{ 
+      parser->body_start = p - buffer + 1; 
+      if(parser->header_done != NULL)
+!       parser->header_done(parser->paramdata, p + 1, pe - p - 1);
+      goto _out53;
+    }
+  	goto st53;
+***************
+*** 531,537 ****
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->data, PTR_TO(mark), LEN(mark,p));
+    }
+  	goto st27;
+  st27:
+--- 531,537 ----
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->paramdata, PTR_TO(mark), LEN(mark,p));
+    }
+  	goto st27;
+  st27:
+***************
+*** 583,589 ****
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->data, PTR_TO(mark), LEN(mark,p));
+    }
+  	goto st30;
+  st30:
+--- 583,589 ----
+  #line 54 "ext/http11/http11_parser.rl"
+  	{
+      if(parser->request_path != NULL)
+!       parser->request_path(parser->paramdata, PTR_TO(mark), LEN(mark,p));
+    }
+  	goto st30;
+  st30:

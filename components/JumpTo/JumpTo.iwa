@@ -1,0 +1,8 @@
+class JumpTo < Iowa::Component
+	attr_accessor :url
+
+	def setup
+		session.context.request.headers_out['Location'] = @url
+		session.context.request.status_line = '302 Moved Temporarily'
+	end
+end

@@ -1,0 +1,77 @@
+0.99.2.19
+
+	*	Numerous bug fixes, including a major one involving nested Repeats, and association
+		caching which wasn't accomodating the nested Repeats.
+
+	*	CSS DSL first release.  Implements CSS1, CSS2, CSS3.
+
+0.99.2.17
+
+	* iowa_webrick.rb rejoins the world of the working.
+
+	* Misc bug fixes revealed by running a new site in production under 0.99.2.16.
+
+
+0.99.2.16
+
+	*	More bug fixes.
+
+	*	Better httpmachine support, but depends on the 0.0.6 monorail gem so far, so is EXPERIMENTAL.
+		Use the hybrid run mode to use EM (which offers great performance characteristics).
+
+	* File uploads are BROKEN.  Will be fixed for 0.99.2.17
+
+	* All in all, much closer to stability again.
+
+
+0.99.2.14
+
+	*	Okay, 0.99.2.9 was not the last release before 0.99.3.0.
+
+	*	Numerous bug fixes.
+
+	* Mongrel integration working better.
+
+	* Hybrid EventMachine/Mongrel support working well.
+
+
+0.99.2.9
+
+	*	The last release before 0.99.3.0.
+
+	*	Mongrel support.
+
+	*	EventMachine/HTTPMachine support.
+
+	*	Testing/bug fixes.  Install fixes.
+
+	*	Much improved StandardDispatcher.
+
+	*	A custom Mutex class that adds some capabilities and works around issues with the standard Mutex.
+
+	*	A workaround for a Ruby memory leak with Hash.
+
+
+0.99.2.8
+
+	*	Fixes more install problems with Win32 platforms.
+
+	*	Bundled win32-process and windows-pr.
+
+	*	Fixed a few misc bugs with iowa_root/root_path.
+
+
+0.99.2.7
+
+	*	Fixes some install problems with Win32 platforms.
+
+	*	Adds a simple hello world demo app.
+
+	*	Fixes a few bugs between the new config structure and the webrick code.
+
+
+0.99.2.6
+
+	*	Bug fix release.  Had a dumb error in setup.rb and a bad little bug
+		related to persistence of old session/context information in 
+		requests which should be looking at current information.

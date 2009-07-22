@@ -1,0 +1,136 @@
+class CRUDList < Iowa::Component
+	#TODO:
+	#  - Address the internal caching.
+	#  - Address the butt-ugly method of manipulating appearance.
+	#  - See what sort of helpers Iowa might be able to provide. 
+
+	attr_binding :records, :order, :alias, :header, :opt1_button, :opt2_button
+	attr_accessor :column_header, :record, :field
+	
+	def awake
+		@@cache ||= PageStore.new(initial_cache_size)
+	end
+
+	def initial_cache_size
+		30
+	end
+	
+	def setup
+		@record_order = []
+		if self.records.kind_of?(Array) and self.records.length > 0
+			if self.order
+				@record_order = self.order.collect {|r| r.to_s}
+			#elsif self.records.kind_of?(Array) and self.records[0].length > 0
+			else
+				self.records[0].class.all_fields.each do |f|
+					@record_order << f.name
+				end
+			end
+		end
+		
+		key = ''
+
+		key << @record_order.join('|')
+		key << "_#{opt1_label}"
+		key << "_#{opt2_label}"
+		unless @@cache.include?(key)
+			my_content = content
+			@@cache[key] = TemplateParser.new(my_content,self.class.template.raw_bindings).root
+		end
+		@template = @@cache[key]
+	end
+
+	def opt1_label
+		if self.opt1_button and self.opt1_button.has_key?(:label)
+			self.opt1_button[:label].to_s
+		else
+			'Edit'
+		end
+	end
+	
+	def opt2_label
+		if self.opt2_button and self.opt2_button.has_key?(:label)
+			self.opt2_button[:label].to_s
+		else
+			'Delete'
+		end
+	end
+	
+	def content
+		raw_template = self.class.template.raw_template
+		raw_template.sub(/<opt1_label>/,opt1_label).sub(/<opt2_label>/,opt2_label)
+	end
+	
+	# Override for special tasks.
+	def handleForm
+	end
+
+	# Override for special tasks.
+	def do_opt1_button(&block)
+		self.opt1_button[:proc].call(@record,block)
+	end
+
+	def do_opt2_button(&block)
+		self.opt2_button[:proc].call(@record,block)
+	end
+	
+	def doHeader?
+		self.header
+	end
+	
+	def doOpt1?
+		self.opt1_button.kind_of?(Hash) and self.opt1_button[:proc] != nil
+	end
+	
+	def doOpt2?
+		self.opt2_button.kind_of?(Hash) and self.opt2_button[:proc] != nil
+	end
+
+	def headers
+		@record_order.collect {|r|
+			n = r
+			if self.alias.respond_to?(:has_key?) and self.alias.has_key?(n.to_sym)
+				n = self.alias[n.to_sym].to_s
+			end
+			n.gsub(/\./,':')
+		}
+	end
+	
+	def records_list
+		self.records.kind_of?(Array) ? self.records : []
+	end
+	
+	def fields
+		r = []
+		@record_order.each do |f|
+			unless /\./.match(f)
+				r << @record.__send__(f)
+			else
+				keys = f.split('.')
+				last_key = keys.pop
+				current = @record
+				keys.each {|k| current = current.__send__(k)}
+				r << current.__send__(last_key)
+			end
+		end
+		r
+	end
+	
+end
+
+<?
+	header_list {
+		item = column_header
+		list = headers
+	}
+	
+	record_list {
+		item = record
+		list = records_list
+	}
+	
+	field_list {
+		item = field
+		list = fields
+	}
+?>

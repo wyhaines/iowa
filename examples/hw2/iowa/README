@@ -1,0 +1,16 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+ruby hw.rb -r webrick
+
+In this example, we've added some HTML structure to the view, and have
+inserted some dynamic content.  The current date and time is now
+displayed on every request.
+
+In IOWA applications, code is not inserted directly into a view file.
+Rather, methods can be called from the controller, and the return
+value of the method will be inserted into the output of the view.
+
+The syntax for this is to use a special tag:
+
+<dynamicstring oid="foo" />
+
+The value of the oid attribute is the name of the method to call.

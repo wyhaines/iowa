@@ -1,0 +1,14 @@
+The following people have made code contributions to the development of Iowa.
+
+	*	David Naseby <naseby@ihug.com.au>: Contributed an initial
+		implementation of both the webrick support and the inline content
+		generation code.
+		
+	*	Daniel Berger <djberge@qwest.com>: Daniel contributed a better
+		implementation of the Hash::downcase_keys method found in iowa.rb.
+
+	*	Daniel Cremer
+
+	*	Stefan Schmiedl <s@xss.de>: Numerous bugs found, and contributions
+		of the component navigation convenience methods, prodeed() and
+		proceed_with().

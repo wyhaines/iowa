@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>[] (MIME::Types)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/mime/types.rb, line 561</span>
+561:     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">type_id</span>, <span class="ruby-identifier">flags</span> = {})
+562:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type_id</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Regexp</span>)
+563:         <span class="ruby-identifier">matches</span> = []
+564:         <span class="ruby-ivar">@type_variants</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+565:           <span class="ruby-identifier">matches</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@type_variants</span>[<span class="ruby-identifier">k</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">type_id</span>
+566:         <span class="ruby-keyword kw">end</span>
+567:         <span class="ruby-identifier">matches</span>.<span class="ruby-identifier">flatten!</span>
+568:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">type_id</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">MIME</span><span class="ruby-operator">::</span><span class="ruby-constant">Type</span>)
+569:         <span class="ruby-identifier">matches</span> = [<span class="ruby-identifier">type_id</span>]
+570:       <span class="ruby-keyword kw">else</span>
+571:         <span class="ruby-identifier">matches</span> = <span class="ruby-ivar">@type_variants</span>[<span class="ruby-constant">MIME</span><span class="ruby-operator">::</span><span class="ruby-constant">Type</span>.<span class="ruby-identifier">simplified</span>(<span class="ruby-identifier">type_id</span>)]
+572:       <span class="ruby-keyword kw">end</span>
+573: 
+574:       <span class="ruby-identifier">matches</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">complete?</span> } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span>[<span class="ruby-identifier">:complete</span>]
+575:       <span class="ruby-identifier">matches</span>.<span class="ruby-identifier">delete_if</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">platform?</span> } <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flags</span>[<span class="ruby-identifier">:platform</span>]
+576:       <span class="ruby-identifier">matches</span>
+577:     <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

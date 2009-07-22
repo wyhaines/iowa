@@ -1,0 +1,9 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+ruby hw.rb -r webrick
+
+This is the simplest IOWA application.  It consists of a ruby file that
+requires the main iowa library, and then calls Iowa.run, and a single
+view file, Main.html.  The application will be listening on 127.0.0.1,
+port 2001.
+
+IOWA applications will pass a request to the Main component by default.

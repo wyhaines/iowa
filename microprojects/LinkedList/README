@@ -1,0 +1,13 @@
+Iowa::LinkedList v. 0.99.2.9
+
+Iowa::LinkedList implements a simple doubly linked list with efficient
+hash-like element access.
+
+To install:
+
+ruby setup.rb
+
+
+To test:
+
+ruby setup.rb test

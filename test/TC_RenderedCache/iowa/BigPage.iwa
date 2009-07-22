@@ -1,0 +1,12 @@
+class BigPage < Iowa::Component
+
+	def content
+		r = ''
+		32768.times { r << Integer(rand() * 26 + 65).chr }
+		r
+	end
+
+	def fingerprint
+		:bigpage
+	end
+end

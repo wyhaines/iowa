@@ -1,0 +1,12 @@
+To run the TC_AppConfig, TC_CGI_Adaptor, and TC_NoSubclass tests on Windows machines,
+the win32/process library must be installed.
+
+This can be found on Rubyforge at http://rubyforge.org/projects/win32utils.
+
+If you use rubygems, it can be installed with:
+
+gem install win32-process
+
+If you do not have them installed, the IOWA installed will detect this and install
+versions bundled in the distribution.
+

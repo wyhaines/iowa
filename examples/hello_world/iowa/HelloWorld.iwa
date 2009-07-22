@@ -1,0 +1,31 @@
+class HelloWorld < Iowa::Component
+
+	attr_accessor :number
+	
+	def timeframe
+		now = Time.now.hour
+		case
+		when now > 20, now < 5
+			"night"
+		when now > 17
+			"evening"
+		when now > 11
+			"afternoon"
+		else
+			"morning"
+		end
+	end
+
+	def current_time
+		Time.now.asctime
+	end
+
+	def lucky_numbers
+		r = []
+		until r.length == 8
+			n = rand(32)
+			r << n unless r.include? n
+		end
+		r
+	end
+end

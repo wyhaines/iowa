@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (MIME::Type)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/mime/types.rb, line 364</span>
+364:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">content_type</span>) <span class="ruby-comment cmt">#:yields self:</span>
+365:       <span class="ruby-identifier">matchdata</span> = <span class="ruby-constant">MEDIA_TYPE_RE</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">content_type</span>)
+366: 
+367:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">nil?</span>
+368:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidContentType</span>, <span class="ruby-node">&quot;Invalid Content-Type provided ('#{content_type}')&quot;</span>
+369:       <span class="ruby-keyword kw">end</span>
+370: 
+371:       <span class="ruby-ivar">@content_type</span> = <span class="ruby-identifier">content_type</span>
+372:       <span class="ruby-ivar">@raw_media_type</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">0</span>]
+373:       <span class="ruby-ivar">@raw_sub_type</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">1</span>]
+374: 
+375:       <span class="ruby-ivar">@simplified</span> = <span class="ruby-constant">MIME</span><span class="ruby-operator">::</span><span class="ruby-constant">Type</span>.<span class="ruby-identifier">simplified</span>(<span class="ruby-ivar">@content_type</span>)
+376:       <span class="ruby-identifier">matchdata</span> = <span class="ruby-constant">MEDIA_TYPE_RE</span>.<span class="ruby-identifier">match</span>(<span class="ruby-ivar">@simplified</span>)
+377:       <span class="ruby-ivar">@media_type</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">0</span>]
+378:       <span class="ruby-ivar">@sub_type</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">1</span>]
+379: 
+380:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">extensions</span>   = <span class="ruby-keyword kw">nil</span>
+381:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">encoding</span>     = <span class="ruby-identifier">:default</span>
+382:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system</span>       = <span class="ruby-keyword kw">nil</span>
+383:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">registered</span>   = <span class="ruby-keyword kw">true</span>
+384: 
+385:       <span class="ruby-keyword kw">yield</span> <span class="ruby-keyword kw">self</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+386:     <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

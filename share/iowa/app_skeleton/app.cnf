@@ -1,0 +1,48 @@
+socket:
+  hostname: 127.0.0.1
+  port: 3000
+logging:
+  basedir: ../log
+  minlevel: 0
+  maxsize: 10000000
+  maxage: 86400
+application:
+  daemonize: false
+  docroot_caching: false
+  reload_interval: 7
+  sessioncache:
+    class: LRUCache
+    maxsize: 2000
+    ttl: 3600
+  advisorcache:
+    maxsize: 1000
+    ttl:
+  dispatcher:
+    class: DBContentDispatcher
+  policy:
+    class: iowa/Policy
+  public_database:
+    vendor: Mysql
+    host: localhost
+    database: direxion_pub
+    user: direxion
+    password: dir1002ex
+    startsize: 1
+    maxage: 600
+    maxsize: 3
+    monitorinterval: 300
+  private_database:
+    vendor: Mysql
+    host: localhost
+    database: direxion_priv
+    user: direxion
+    password: dir1002ex
+    startsize: 1
+    maxage: 600
+    maxsize: 3
+    monitorinterval: 300
+  model:
+    files:
+      - models/
+    interval: 300
+    variation: 60

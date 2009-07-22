@@ -1,0 +1,7 @@
+class Main < Iowa::Component
+
+	def dlink
+		yield pageNamed(:NewPage)
+	end
+
+end

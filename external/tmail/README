@@ -1,0 +1,7 @@
+This is a version of tmail that has been modified to be pure ruby only.
+If tmail already exists on the system, this version should not be installed.
+The IOWA installer will detect this.
+
+The full, original Tmail package can be found at
+
+ http://i.loveruby.net/en/projects/tmail/

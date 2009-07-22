@@ -1,0 +1,24 @@
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2007-03-27 08:38:05 ::   Application with docroot of /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa initialized.
+[INFO] iowa_log @ 2007-03-27 08:38:05 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Application started; process not forked.
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Loading template /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Parsing /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html into template cache
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2007-03-27 08:38:05 ::   Done parsing /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:38:05 :: Entering the WEBrick event loop...
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2007-03-27 08:38:08 ::   Application with docroot of /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa initialized.
+[INFO] iowa_log @ 2007-03-27 08:38:08 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Application started; process not forked.
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Loading template /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Parsing /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html into template cache
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2007-03-27 08:38:08 ::   Done parsing /opt/iowa_0.99.3.2/test/TC_NoSubclass/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:38:08 :: Entering the WEBrick event loop...

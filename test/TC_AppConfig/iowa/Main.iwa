@@ -1,0 +1,17 @@
+class Main < Iowa::Component
+	def config
+		Iowa.config.inspect
+	end
+
+	def scache
+		Iowa.app.class.SessionCache.class.name
+	end
+
+	def dispatcher
+		Iowa.app.class.Dispatcher.class.name
+	end
+
+	def policy
+		Iowa.app.class.Policy.class.name
+	end
+end

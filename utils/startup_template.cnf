@@ -1,0 +1,27 @@
+socket:
+  hostname: localhost
+  port: 9876
+logging:
+  basedir: /var/log/iowa/myapp
+  minlevel: 0
+  maxsize: 10000000
+  maxage: 86400
+application:
+  daemonize: false
+  sessioncache:
+    class: LRUCache
+    maxsize: 200
+    ttl: 3600
+  dispatcher:
+    class: StandardDispatcher
+    mapfile: dispatcher.map
+  policy:
+    class: iowa/Policy
+  database:
+    vendor: Mysql
+    host: localhost
+    database: foo
+    user: bar
+    password: mylittlepony
+    connections: 2
+    monitor_interval: 300

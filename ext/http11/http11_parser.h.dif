@@ -1,0 +1,20 @@
+*** /usr/local/ruby184/lib/ruby/gems/1.8/gems/mongrel-0.3.13.4/ext/http11/http11_parser.h	2006-12-30 14:55:52.000000000 -0600
+--- ./http11_parser.h	2007-01-15 09:13:45.000000000 -0600
+***************
+*** 25,31 ****
+    size_t field_len;
+    size_t query_start;
+  
+!   void *data;
+  
+    field_cb http_field;
+    element_cb request_method;
+--- 25,32 ----
+    size_t field_len;
+    size_t query_start;
+  
+! 	void *headerdata;
+! 	void *paramdata;
+  
+    field_cb http_field;
+    element_cb request_method;

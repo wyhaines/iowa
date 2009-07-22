@@ -1,0 +1,13 @@
+import "header"
+import "footer"
+
+class Main < Iowa::Component
+	attr_accessor :yourname
+
+	def got_name
+		new_page = page_named(:Greetings)
+		new_page.yourname = @yourname
+		yield new_page
+	end
+
+end

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Thu Aug 17 12:27:55 CDT 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>README: Mime::Types for Ruby</h1>
+<p>
+This library allows for the identification of a file&#8217;s likely <a
+href="../classes/MIME.html">MIME</a> content type. This is release 1.15.
+The identification of <a href="../classes/MIME.html">MIME</a> content type
+is based on a file&#8217;s filename extensions.
+</p>
+<p>
+<a href="../classes/MIME/Types.html">MIME::Types</a> for Ruby originally
+based on and synchronized with <a
+href="../classes/MIME/Types.html">MIME::Types</a> for Perl by Mark
+Overmeer, copyright 2001 - 2005. As of version 1.15, the data format for
+the <a href="../classes/MIME/Type.html">MIME::Type</a> list has changed and
+the synchronization will no longer happen.
+</p>
+<table>
+<tr><td valign="top">Homepage:</td><td><a href="http://mime-types.rubyforge.org">mime-types.rubyforge.org</a>/
+
+</td></tr>
+<tr><td valign="top">Copyright:</td><td>2002 - 2006, Austin Ziegler Based on prior work copyright Mark Overmeer
+
+</td></tr>
+</table>
+<h2>Licensing</h2>
+<p>
+<a href="../classes/MIME/Types.html">MIME::Types</a> is available under
+three disjunctive licences, as detailed in the LICENCE file.
+</p>
+<h2>Requirements</h2>
+<p>
+<a href="../classes/MIME/Types.html">MIME::Types</a> requires Ruby 1.8.2 or
+better.
+</p>
+<p>
+#&#8212; # <a href="../classes/MIME/Types.html">MIME::Types</a> for Ruby #
+<a
+href="http://rubyforge.org/projects/mime-types">rubyforge.org/projects/mime-types</a>/
+# Copyright 2003 - 2005 Austin Ziegler. # Licensed under a MIT-style
+licence. # # $Id: Readme,v 1.3 2006/02/12 21:27:21 austin Exp $ #++ # vim:
+sts=2 sw=2 ts=4 et ai tw=77
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

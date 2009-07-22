@@ -1,0 +1,422 @@
+#!/usr/local/bin/ruby
+
+#
+# This script is intended to live in /etc/rc.d/init.d.  It provides basic
+# functionality to start, stop, and query the status of your Iowa
+# applications.  It was written because I needed to automate the startup
+# and shutdown of my Iowa apps so that I could be sure that they would be
+# shut down cleanly and restarted if a machine were rebooted.  Also, on
+# very small servers I like to be able to shut my Iowa apps down and
+# restart them, automatically, via cron at some regular interval, just to
+# be paranoid.
+#
+# This init script depends on a simple configuration file to tell it
+# what apps it needs to deal with.  The format of the configuration file
+# is to list the paths to the files to run, one per line.
+# i.e.
+#   /usr/local/htdocs/foobar.com/doc/twizzler/twizzler.rb
+#   /usr/local/htdocs/dekpr.net/doc/race/go.rb
+#
+# If the above were to appear in the configuration file, it would define
+# two Iowa apps.
+#
+# Supported commands in this script are start, stop, restart, and status.
+#
+# The script was written on a RedHat Linux system, and has only been
+# tested on such a system.  It should not be difficult to get it to run
+# on most Unix variants, however.
+#
+# ToDo:
+#
+#   * Make sure this script works under Windows?
+#
+
+require "rbconfig.rb"
+include Config
+
+# If the Sys::ProcTable module is available, we try to use that.
+# You can get Sys::ProcTable here:
+#   http://raa.ruby-lang.org/list.rhtml?name=sys-proctable
+
+begin
+  require 'sys/proctable'
+  include Sys
+  Has_Sys_ProcTable = true
+rescue LoadError
+  Has_Sys_ProcTable = false
+end
+
+# Location in which to find the configuration file.
+
+Conf = '/etc/iowa_apps.conf'
+
+# The script maintains a PID database of what it has started and what it
+# expects to be running.  This is the name of the file used to store that
+# database.
+
+PIDdb = '/var/run/iowa/PIDdb'
+
+# The directory where the Unix domain Iowa sockets can be found.
+
+Socket_dir = '/tmp'
+
+# Where the Ruby executable can be found.
+
+Ruby_bin = "#{CONFIG["bindir"]}/ruby"
+
+# The 'ps' command to use to check for running apps.  Make sure that this
+# is correct for your platform if you are not using Sys::ProcTable.
+
+PS_command = 'ps auxw --width 500' #Linux & similar using procps
+#PS_command = 'ps -eaf --width 500' #Solaris (& similar?)
+
+@socket_list = {}
+@pid_db = {}
+
+# Check the process table to see if the various apps are running.
+# If you don't have Sys::ProcTable, 'ps' will be executed and parsed.
+# Make sure you've properly defined the correct 'ps' command for your
+# platform up above.
+
+def check_apps
+  flag = false
+  ps_out = []
+	if !Has_Sys_ProcTable
+		IO.popen(PS_command).each do |line|
+			ps_out.push line
+		end
+	else
+		ProcTable.ps do |ps|
+			ps_out.push ps
+		end
+	end
+
+  begin
+		File.open(Conf,'r').each do |filename|
+		 filename.chomp!
+	
+			# Skip this app if we were provided with a filepath argument, and this
+			# app doesn't match it.
+	
+	   next if (ARGV[1].to_s != '' and ARGV[1].to_s != filename)
+			if Has_Sys_ProcTable
+				ps_out.each do |ps|
+					flag = true if (ps.cmdline =~ /ruby\s+#{filename}/)
+				end
+			else
+				ps_out.each do |line|
+					flag = true if (line =~ /ruby\s+#{filename}/)
+				end
+			end
+		end
+  rescue Exception
+    raise $!
+  end
+
+  if (flag)
+    raise "Iowa application(s) are already running; can not start application(s)."
+  end
+end
+
+# Delete any old socket file.  The code tests to see if an old socket file
+# is present, and deletes it if it is.
+
+def remove_sockets
+  @socket_list.each_value do |socket_name|
+    begin
+      socket_file = "#{Socket_dir}/#{socket_name}"
+      File.delete(socket_file) if FileTest.exist?(socket_file)
+    rescue Exception
+      puts "Error deleting socket file #{socket_file}:\n#{$!}"
+    end
+	end
+end
+
+# Start the applications.  We make sure they aren't already running,
+# clear any old socket files, and then start each of them, capturing
+# their PIDs as we do so.
+
+def start_apps
+  check_apps
+  remove_sockets
+  _start_apps(ARGV[1])
+end
+
+def _start_apps(appname)
+  File.open(Conf,'r').each do |filename|
+    process_pid = 0
+    filename.chomp!
+    next if (appname.to_s != '' and appname.to_s != filename)
+
+		# Extract the directory that the file is in from the file path.
+		# I realize that this won't work, as written, on a Windows box.  At
+		# the very least one needs to use File::SEPARATOR instead of '/'.
+		# I haven't done that, though, because I don't do these things on
+		# Windows and really have no idea if Iowa will even work under
+		# Windows.  It mostly seems like it should, and this script mostly
+		# seems like it should, too.  If (when?) I confirm this, I'll change
+		# this script to work under Windows, as well.
+
+    filename =~ /^(.*?)\/[^\/]+$/
+    executable_directory = $1
+
+		# An assumption is being made here that, regardless of whether the
+		# Iowa app is being started with Iowa.startDaemon or through some
+		# other technique, that the code will return a line to STDOUT
+		# that contains 'PID 12345' where 12345 is the PID of the daemon
+		# process.  Once we get that, we can bail out of processing any
+		# more of the process output, since we don't care about anything
+		# else it might have to say.
+
+    Dir.chdir executable_directory
+    IO.popen("#{Ruby_bin} #{filename}").each do |line|
+      if (line =~ /PID\s+(\d+)/)
+        process_pid = $1.to_i
+				break
+      end
+		end
+
+		# Report back on our STDOUT that the app has been started.
+
+    puts "Started #{filename} with PID #{process_pid}"
+
+		# Save the pid info for the app.
+
+    @pid_db[filename] = process_pid
+	end
+end
+
+# Kill the Iowa apps.
+
+def stop_apps
+  ps_out = []
+	if !Has_Sys_ProcTable
+		IO.popen(PS_command).each do |line|
+			ps_out.push line
+		end
+	else
+		ProcTable.ps do |ps|
+			ps_out.push ps
+		end
+	end
+
+  File.open(Conf,'r').each do |filename|
+    filename.chomp!
+    next if (ARGV[1].to_s != '' and ARGV[1].to_s != filename)
+    pid_to_kill = 0
+
+    # First we check to see if we have mention of the app in the PID
+    # database.  Normally, we should.  If we don't have mention of the
+    # app in the PID database, then the process table must be searched
+    # to attempt to find the app and it's PID so that we have something
+    # to kill.
+
+    if ((@pid_db[filename].to_i || 0) > 0)
+      pid_to_kill = @pid_db[filename].to_i
+    else
+			if Has_Sys_ProcTable
+				ps_out.each do |ps|
+					if (ps.cmdline =~ /ruby\s+#{filename}\s*$/)
+							pid_to_kill = ps.pid.to_i
+							break
+					end
+				end
+			else
+        ps_out.each do |line|
+          if (line =~ /ruby\s+#{filename}\s*$/)
+            line =~ /^\S+\s+(\d+)/
+            pid_to_kill = $1.to_i
+						break
+          end
+				end
+			end
+    end
+
+    # Make sure that a PID to kill was found.  This is paranoia in case
+    # the app were killed manually or died unexpectedly at some point.
+    # it'd be a real bummer to kill someone's shell session just because
+    # they had the dumb luck to inherit a PID number that used to belong
+    # to an Iowa app.
+
+    k = false
+    if (pid_to_kill > 0)
+      begin
+        Process.kill('SIGTERM',pid_to_kill)
+        k = true
+      rescue Exception
+        puts "Error killing PID #{pid_to_kill} (#{filename})"
+			end
+      puts "Stopped PID #{pid_to_kill} (#{filename})" if k
+    else
+      puts "Warning: Can't find a PID for #{filename}"
+		end
+
+    @pid_db.delete filename if k
+  end
+end
+
+# Check the process table to see if the defined apps are running or not.
+# If monitor_flag is true, then status_apps will issue a restart command
+# for any non-running apps that it finds.
+
+def status_apps(monitor_flag)
+  ps_out = []
+	if !Has_Sys_ProcTable
+		IO.popen(PS_command).each do |line|
+			ps_out.push line
+		end
+	else
+		ProcTable.ps do |ps|
+			ps_out.push ps
+		end
+	end
+
+  File.open(Conf,'r').each do |filename|
+    filename.chomp!
+    next if (ARGV[1].to_s != '' and ARGV[1].to_s != filename)
+    pid_should_be = @pid_db[filename] || -2
+    pid_match = catch (:done) do
+			if Has_Sys_ProcTable
+				ps_out.each do |ps|
+					if ((ps.pid.to_s == pid_should_be.to_s) and
+							(ps.cmdline =~ /ruby\s+#{filename}/))
+						throw :done, pid_should_be
+					end
+				end
+				-1
+			else
+				ps_out.each do |line|
+					if (line =~ /^\S+\s+#{pid_should_be}.*ruby\s+#{filename}/)
+						throw :done,pid_should_be
+					end
+				end
+				-1
+			end
+		end
+
+		# Normally, all of the PIDs in the PID database should exist.
+		# If the process is found to be running at the expecte PID,
+		# it is reported as running.
+		# If it is not found running at the expecte PID, but an apparent match
+		# to the app can be found in the process table under another PID,
+		# it is reported as "apparently" running.
+		# And if no match can be found at all, it is reported as not running.
+
+    if (pid_should_be == pid_match)
+      puts "#{filename} RUNNING with PID #{pid_should_be}"
+    else
+      pid_match = catch (:done) do
+				if Has_Sys_ProcTable
+					ps_out.each do |ps|
+						if (ps.cmdline =~ /ruby\s+#{filename}/)
+							throw :done, ps.pid.to_i
+						end
+					end
+					-1
+				else
+					ps_out.each do |line|
+						if (line =~ /^\S+\s+(\d+).*ruby\s+#{filename}\s*$/)
+							m = $1.to_i
+							throw :done,m
+						end
+					end
+					-1
+				end
+			end
+
+      if (pid_match > -1)
+        puts "#{filename} apparently RUNNING with PID #{pid_match}"
+      else
+				if monitor_flag
+					puts "#{filename} NOT RUNNING; restarting..."
+					_start_apps filename
+				else
+					puts "#{filename} NOT RUNNING"
+				end
+      end
+    end
+	end
+end
+
+# Here's where the execution actually starts.
+      
+begin
+  File.open(Conf,'r') do |conf_file|
+    conf_file.each do |filename|
+      begin
+        filename.chomp!
+
+				##### BROKEN ##### 
+				###
+				### Socket now defined in a config file, and can be a port
+				### number instead of a filename.
+				#####
+        # Since the actual name of an Iowa app is unique on a given
+        # system because the socket name is based off of the app name,
+        # the code parses the file for the Iowa.run() invocation,
+        # and then extracts the app name from it.
+        # This works, but I'm not sure I like it as it depends on
+        # the app name always being declared statically within the
+        # code.  This will probably change.  Odds are that I will
+        # make the app name an additional data item stored in the
+        # configuration file.
+
+        File.open("#{filename}",'r').each do |line|
+          if (line =~ /Iowa.run\('([^']+)'\)/)
+            app_name = $1
+            socket_name = "iowa_#{app_name}"
+            @socket_list[app_name] = socket_name
+          end
+				end
+      rescue Exception
+        raise $!
+      end 
+		end
+	end
+rescue Exception
+  raise $!
+end
+
+# If the PID db file doesn't exist, we create it.
+
+unless (FileTest.exists? PIDdb)
+  File.open(PIDdb,'w') do |pid_file|
+    pid_file.syswrite Marshal.dump(@pid_db)
+	end
+end
+
+# Make sure that the database file can be read.
+
+unless (FileTest.readable? PIDdb)
+  raise "The PID database file, #{PIDdb} is not readable."
+end
+    
+File.open(PIDdb,'r') do |pid_file|
+	data = pid_file.read
+  @pid_db = Marshal.load(data)
+end
+
+# Now figure out what we are being asked to do.
+
+case ARGV[0]
+  when /restart/i
+    stop_apps
+    start_apps
+  when /start/i
+    start_apps
+  when /stop/i
+    stop_apps
+  when /status/i
+    status_apps false
+	when /monitor/i
+		status_apps true
+  else
+    puts "I don't understand what you want"
+end
+
+# And finally, write the pid db back out to a file.
+
+File.open(PIDdb,'w') do |pid_file|
+  pid_file.syswrite Marshal.dump(@pid_db)
+end
+

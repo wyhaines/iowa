@@ -1,0 +1,22 @@
+012345678901234567890123456789012345678901234567890123456789012345678901
+ruby hw.rb -r webrick
+
+Notice that the tag to include dynamic content from the last example:
+
+<dynamicstring oid="foo" />
+
+is missing from this one.  Instead, in its place, is "@foo".
+
+Because the act of invoking a method in the controller to insert dynamic
+content is so common, IOWA provides a syntactic shortcut for that.
+
+Any alphanumeric sequence of characters which is preceded with an
+at (@) sign is treated as a DynamicString tag for that sequence of
+characters.  Dot notation for chaining method calls IS supported.
+
+The other thing that was added to this example is a dynamic link.  When
+an <a> tag has an oid attribute, the value of that attribute names the
+method that will be called when that link is clicked on.  The reload()
+method is a standard one that exists for all components, and does
+nothing but allow the current page to be reloaded.
+

@@ -1,0 +1,31 @@
+import 'TesCon'
+class Repeat1 < Iowa::Component
+
+	attr_accessor :test_item
+
+	def awake
+		File.open('/tmp/seoaw.out','a+') {|fh| fh.puts @session.inspect}
+	end
+
+	def test_list
+		[1,2,3,4,5]
+	end
+
+	def tagid
+		@test_item
+	end
+
+	def tcid
+		"this is a test"
+	end
+end
+
+<?
+	count {
+		id = tagid
+	}
+
+	tescon {
+		id = tcid
+	}
+?>

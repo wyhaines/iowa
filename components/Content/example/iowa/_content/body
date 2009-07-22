@@ -1,0 +1,7 @@
+
+This is the body of the content.  There can be pieces
+of content in here directly, as with this paragraph, or
+one can include other pieces of content in here by
+embedding more &lt;content&gt; tags in here.
+
+<content showcontainer="false"  oid="body2" />

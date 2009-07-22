@@ -1,0 +1,6 @@
+JumpTo
+
+Displays a page that does nothing more than redirect the browser to another
+page.
+
+yield componentNamed(:JumpTo,{:url => '/index.html'})

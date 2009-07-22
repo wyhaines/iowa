@@ -1,0 +1,25 @@
+= Parameters
+Long:    'N' or 'L'
+Integer: 'I'
+Pointer: 'P'
+Void:    'V'
+
+= Windows Data Types
+BOOL  		=> 'I'
+DWORD 		=> 'L'
+HANDLE		=> 'L'
+LPDWORD		=> 'P'
+LPTSTR 		=> 'P'
+UINT  		=> 'I'
+VOID        => 'V'
+WORD        => 'I'
+
+= C Data Types
+void     	=> 'V'
+void*    	=> 'P'
+char*    	=> 'P'
+const char* => 'L'
+int			=> 'I'
+long        => 'L'
+struct      => 'P'
+struct*     => 'P'

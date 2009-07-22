@@ -1,0 +1,17 @@
+Iowa::Caches::DiskCache v. 0.99.2.9
+
+Iowa::Caches::DiskCache implements an on-disk LRU cache via a linked list
+maintained in persistent storage.
+
+Iowa::DiskStore is a general purpose persistence engine extracted from the
+DiskCache.  It offers a hashlike access to stored data and nestable
+nestable transactions.
+
+To install:
+
+ruby setup.rb
+
+
+To test:
+
+ruby setup.rb test

@@ -1,0 +1,9 @@
+This parser is a slightly modified version of the parser found in Mongrel
+version 0.3.13.3.
+
+This version of the parser code separates the trie classifier code from
+the http parser, and modifies the parser to return information in a
+style that is more directly usable by IOWA.
+
+You may find the original code at http://mongrel.rubyforge.org
+

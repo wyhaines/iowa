@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>simplified (MIME::Type)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre>     <span class="ruby-comment cmt"># File lib/mime/types.rb, line 248</span>
+248:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">simplified</span>(<span class="ruby-identifier">content_type</span>)
+249:         <span class="ruby-identifier">matchdata</span> = <span class="ruby-constant">MEDIA_TYPE_RE</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">content_type</span>)
+250: 
+251:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">nil?</span>
+252:           <span class="ruby-identifier">simplified</span> = <span class="ruby-keyword kw">nil</span>
+253:         <span class="ruby-keyword kw">else</span>
+254:           <span class="ruby-identifier">media_type</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">UNREG_RE</span>, <span class="ruby-value str">''</span>)
+255:           <span class="ruby-identifier">subtype</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-constant">UNREG_RE</span>, <span class="ruby-value str">''</span>)
+256:           <span class="ruby-identifier">simplified</span> = <span class="ruby-node">&quot;#{media_type}/#{subtype}&quot;</span>
+257:         <span class="ruby-keyword kw">end</span>
+258:         <span class="ruby-identifier">simplified</span>
+259:       <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

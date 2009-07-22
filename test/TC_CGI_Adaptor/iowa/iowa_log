@@ -1,0 +1,48 @@
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2007-03-27 08:36:59 ::   Application with docroot of /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa initialized.
+[INFO] iowa_log @ 2007-03-27 08:36:59 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Application started; process not forked.
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Loading template /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Parsing /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html into template cache
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2007-03-27 08:36:59 ::   Done parsing /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:36:59 :: Entering the WEBrick event loop...
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2007-03-27 08:37:02 ::   Application with docroot of /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa initialized.
+[INFO] iowa_log @ 2007-03-27 08:37:02 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Application started; process not forked.
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Loading template /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Parsing /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html into template cache
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2007-03-27 08:37:02 ::   Done parsing /opt/iowa_0.99.3.2/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Setting up signal handlers.
+[INFO] iowa_log @ 2007-03-27 08:37:02 :: Entering the WEBrick event loop...
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2008-01-14 17:25:25 ::   Application with docroot of /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa initialized.
+[INFO] iowa_log @ 2008-01-14 17:25:25 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Application started; process not forked.
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Loading template /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Parsing /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html into template cache
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2008-01-14 17:25:25 ::   Done parsing /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Setting up signal handlers.
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Setting up signal handlers.
+[INFO] iowa_log @ 2008-01-14 17:25:25 :: Entering the WEBrick event loop...
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Log4R Logging subsystem initialized.
+[INFO] iowa_log @ 2008-01-14 17:25:28 ::   Application with docroot of /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa initialized.
+[INFO] iowa_log @ 2008-01-14 17:25:28 ::     docroot_caching is enabled
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Application started; process not forked.
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Loading template /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Creating namespace Iowa::Application::ContentClasses
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Parsing /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html into template cache
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: NOT Saving compiled template for Iowa::Application::ContentClasses::Main: false & true
+[INFO] iowa_log @ 2008-01-14 17:25:28 ::   Done parsing /opt/workspace/iowa/test/TC_CGI_Adaptor/iowa/Main.html
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Setting up signal handlers.
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Setting up signal handlers.
+[INFO] iowa_log @ 2008-01-14 17:25:28 :: Entering the WEBrick event loop...

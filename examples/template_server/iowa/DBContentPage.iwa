@@ -1,0 +1,85 @@
+import "Header"
+import "AdvisorHeader"
+import "Footer"
+import "Content"
+import "Products"
+import "CorrelationCalculator"
+import "JumpToInterview"
+
+class DBContentPage < Iowa::Component
+
+	$VERBOSE = nil
+	PREVIEW = 'preview'.freeze
+	NAME = 'name'.freeze
+	COLON = ':'.freeze
+
+	def self.special_product_page?(uri)
+		uri =~ /^(\/products.htm|\/evolution|\/spectrum|\/psi|\/hcm)/
+	end
+
+	def self.products_only_page?(uri)
+		uri =~ /^\/products.htm/
+	end
+
+	[:pub,:priv].each do |side|
+		::Iowa::Application::ContentClasses::Content.config(side).cache = Iowa::Caches::LRUCache.new(:maxsize => 200)
+		::Iowa::Application::ContentClasses::Content.config(side).query = Proc.new do |name, attributes, session|
+			@lastcheck ||= Hash.new {|h,k| h[k]=Time.at(1)}
+			@lastresult ||= {}
+			if Time.now < @lastcheck[name]
+				@lastresult[name]
+			else
+				@lastcheck[name] = Time.now + 30
+				
+				Iowa.app.dbpool[side].obtain do |ksdbh|
+					r = ksdbh.select(:ProductUrls) {|pu| pu.product_idx == name}.first
+					@lastresult[name] = r ? r.last_modified.to_time.to_i : 0
+				end
+			end
+		end
+	
+		::Iowa::Application::ContentClasses::Content.config(side).retrieve = Proc.new do |name, attributes, session|
+			Iowa.app.dbpool[side].obtain do |ksdbh|
+				t1 = ksdbh.select(:ProductUrls) {|pu| pu.product_idx == name}.first
+				if session.context.request.params[PREVIEW]
+					t2 = ksdbh.select(:ProductsPreview) {|pp| pp.field(:id) == name}.first
+				else
+					t2 = ksdbh.select(:Products) {|pp| pp.field(:id) == name}.first
+				end
+				r = {}
+				r[Cchecksum] = r[Clast_modification] = t1.last_modified.to_time.to_i
+				r[Ctitle] = r[Clabel] = t2.name
+				r[Cbody] = t2.descrip
+				r
+			end
+		end
+	end
+	
+	::Iowa::Application::ContentClasses::Content.config(:internal).cache = Iowa::Caches::LRUCache.new(:maxsize => 20)
+	::Iowa::Application::ContentClasses::Content.config(:internal).query = Proc.new do |name, attributes, session|
+		Iowa.app.internal_content[name][:query].call(name, attributes, session)
+	end
+	::Iowa::Application::ContentClasses::Content.config(:internal).retrieve = Proc.new do |name, attributes, session|
+	end
+
+	def get_product_id
+		session.context[:product_id]
+	end
+
+	def get_side
+		session.context[:side]
+	end
+
+	def product_title
+		#LeftColumn.Products[session.context[:product_id]][NAME].split(COLON).last
+		''
+	end
+
+end
+
+<?
+	contentid {
+		id = get_product_id
+		library = get_side
+		}
+?>

@@ -1,0 +1,9 @@
+Repeat1: Repeat Testing
+
+test 1:
+
+<repeat oid="test_list" item="test_item">
+  <p oid="count">@test_item</p>
+</repeat>
+<br />
+<TesCon oid="tescon" />

@@ -1,0 +1,32 @@
+class Repeat2 < Iowa::Component
+
+	attr_accessor :tidx
+
+	def awake
+		@tl2 = [1,2,3,4,5].collect {|x| x.to_s}
+	end
+
+	def twa
+		@tl2.inspect
+	end
+
+	def test_list2
+		@tl2
+	end
+
+	def test_item
+		@tl2[@tidx]
+	end
+
+	def test_item=(val)
+		@tl2[@tidx] = val
+	end
+
+end
+
+<?
+	test2 {
+		item = tidx
+		list = :eval; (0..(@tl2.length-1)).to_a
+	}
+?>
