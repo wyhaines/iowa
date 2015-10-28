@@ -531,7 +531,7 @@ module Iowa
 				next if filename == C_dot or filename == C_dotdot or filename =~ /^\./ or filename =~ /^[a-z]/
 				fullname = "#{dirpath}/#{filename}"
 				if FileTest.directory? fullname
-					r.concat(search_proc(fullname))
+					r << search_proc(fullname)
 				elsif @@search_regex.match(filename)
 					r.push fullname.gsub(/\/\//,C_slash)
 				end
@@ -628,12 +628,12 @@ module Iowa
 					next if filename == C_dot or filename == C_dotdot or /^\./.match(filename) or /^[a-z]/.match(filename)
 					fullname = "#{dirpath}/#{filename}"
 					if FileTest.directory? fullname
-						r.concat(search_proc.call(fullname))
+						r << search_proc.call(fullname)
 					elsif @@view_regex.match(filename)
 						r.push fullname
 					end
 				end
-				r.sort
+				r.flatten.sort
 			end
 
 			pathlist = search_proc.call(@docroot)
@@ -918,7 +918,7 @@ module Iowa
 		# Make this something that can be configured.
 		
 		def invalidSession(context)
-			context.response << "<html><head><meta http-equiv=REFRESH content='1; URL=#{context.baseURL}'></head><body><b>That session no longer exists.<p>You are being forwarded to a <a href='#{context.baseURL}'>new session</a>.</b></body></html>"
+			context.response << "<html><head><meta http-equiv=REFRESH content='1; URL=#{context.baseURL}'></head><body><b>That session no longer exists (#{$$}:#{$$.to_s(16)}).<p>You are being forwarded to a <a href='#{context.baseURL}'>new session</a>.</b></body></html>"
 		end
 
 	end

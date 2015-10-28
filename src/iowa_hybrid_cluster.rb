@@ -110,7 +110,12 @@ module Iowa
 		def process_http_request(headers,params,buffer)
 			unless handle_file(params,headers)
 				clen = buffer.length - headers[CCONTENT_LENGTH].to_i
-				body = buffer[clen,headers[CCONTENT_LENGTH].to_i]
+				if Tempfile === buffer
+					buffer.seek(clen)
+					body = buffer
+				else
+					body = buffer[clen,headers[CCONTENT_LENGTH].to_i]
+				end
 				request = Iowa::Request::EMHybrid.new(headers,params,body)
 				response = Iowa.handleConnection request
 
@@ -146,7 +151,7 @@ module Iowa
 				raise MaxHeaderExceeded
 			end
 		rescue => e
-			Logger['iowa_log'].error "Error while reading request: #{e}"
+			Logger['iowa_log'].error "Error while reading request: #{e}\n#{e.backtrace.inspect}"
 			close_connection
 		end
 	end
