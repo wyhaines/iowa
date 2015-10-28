@@ -3,11 +3,11 @@ SHELL = /bin/sh
 
 #### Start of system configuration section. ####
 
-srcdir = /opt/workspace/iowa/ext/Classifier
-topdir = /usr/local/ruby185/lib/ruby/1.8/x86_64-linux
+srcdir = /usr/local/src/iowa/ext/Classifier
+topdir = /usr/local/ruby186/lib/ruby/1.8/x86_64-linux
 hdrdir = $(topdir)
 VPATH = $(srcdir):$(topdir):$(hdrdir)
-prefix = $(DESTDIR)/usr/local/ruby185
+prefix = $(DESTDIR)/usr/local/ruby186
 exec_prefix = $(prefix)
 sitedir = $(prefix)/lib/ruby/site_ruby
 rubylibdir = $(libdir)/ruby/$(ruby_version)
@@ -29,23 +29,24 @@ sharedstatedir = $(prefix)/com
 oldincludedir = $(DESTDIR)/usr/include
 pdfdir = $(docdir)
 sitearchdir = $(sitelibdir)/$(sitearch)
-bindir = $(exec_prefix)/bin
 localstatedir = $(prefix)/var
+bindir = $(exec_prefix)/bin
 sitelibdir = $(sitedir)/$(ruby_version)
 libexecdir = $(exec_prefix)/libexec
 
 CC = gcc
 LIBRUBY = $(LIBRUBY_A)
 LIBRUBY_A = lib$(RUBY_SO_NAME)-static.a
-LIBRUBYARG_SHARED = -Wl,-R -Wl,$(libdir) -L$(libdir) -L. 
+LIBRUBYARG_SHARED = -Wl,-R -Wl,$(libdir) -L$(libdir) 
 LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
 
 RUBY_EXTCONF_H = 
-CFLAGS   =  -fPIC -g -O2 
-INCFLAGS = -I. -I. -I/usr/local/ruby185/lib/ruby/1.8/x86_64-linux -I/opt/workspace/iowa/ext/Classifier
-CPPFLAGS =  
+CFLAGS   =  -fPIC -O2 
+INCFLAGS = -I. -I. -I/usr/local/ruby186/lib/ruby/1.8/x86_64-linux -I/usr/local/src/iowa/ext/Classifier
+DEFS     = 
+CPPFLAGS =   
 CXXFLAGS = $(CFLAGS) 
-DLDFLAGS =   
+DLDFLAGS = -L.  -rdynamic -Wl,-export-dynamic  
 LDSHARED = $(CC) -shared
 AR = ar
 EXEEXT = 
@@ -55,7 +56,7 @@ RUBY_SO_NAME = ruby
 arch = x86_64-linux
 sitearch = x86_64-linux
 ruby_version = 1.8
-ruby = /usr/local/ruby185/bin/ruby
+ruby = /usr/local/ruby186/bin/ruby
 RUBY = $(ruby)
 RM = rm -f
 MAKEDIRS = mkdir -p
@@ -68,8 +69,8 @@ COPY = cp
 
 preload = 
 
-libpath = $(libdir)
-LIBPATH =  -L'$(libdir)' -Wl,-R'$(libdir)'
+libpath = . $(libdir)
+LIBPATH =  -L. -L$(libdir) -Wl,-R$(libdir)
 DEFFILE = 
 
 CLEANFILES = mkmf.log
@@ -79,9 +80,9 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS =  -lc  -ldl -lcrypt -lm   -lc
-SRCS = classifier.c tst_init.c tst_insert.c tst_delete.c tst_grow_node_free_list.c tst_search.c tst_cleanup.c
-OBJS = classifier.o tst_init.o tst_insert.o tst_delete.o tst_grow_node_free_list.o tst_search.o tst_cleanup.o
+LIBS =  -lc  -lrt -ldl -lcrypt -lm   -lc
+SRCS = tst_delete.c tst_grow_node_free_list.c tst_init.c tst_search.c classifier.c tst_insert.c tst_cleanup.c
+OBJS = tst_delete.o tst_grow_node_free_list.o tst_init.o tst_search.o classifier.o tst_insert.o tst_cleanup.o
 TARGET = classifier
 DLLIB = $(TARGET).so
 EXTSTATIC = 
@@ -140,9 +141,9 @@ site-install-rb: install-rb
 .c.o:
 	$(CC) $(INCFLAGS) $(CPPFLAGS) $(CFLAGS) -c $<
 
-$(DLLIB): $(OBJS)
+$(DLLIB): $(OBJS) Makefile
 	@-$(RM) $@
-	$(LDSHARED) $(DLDFLAGS) $(LIBPATH) -o $@ $(OBJS) $(LOCAL_LIBS) $(LIBS)
+	$(LDSHARED) -o $@ $(OBJS) $(LIBPATH) $(DLDFLAGS) $(LOCAL_LIBS) $(LIBS)
 
 
 
