@@ -41,6 +41,7 @@ module Iowa
 	class Big < P; end
 	class Blockquote < P; end
 	class Body < P; end
+	class Button < P; end
 	class Caption < P; end
 	class Cite < P; end
 	class Code < P; end

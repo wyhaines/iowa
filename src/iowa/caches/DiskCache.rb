@@ -85,7 +85,7 @@ module Iowa
 
 			def initialize(arg1, force = nil, width = DEFAULT_BUCKET_WIDTH, depth = DEFAULT_BUCKET_DEPTH, use_lockfile = false)
 				@transaction_cache = []
-				@transaction_lock = [nil,Iowa::Mutex.new]
+				@transaction_lock = [nil,Mutex.new]
 				@cache_dir = nil
 				if arg1.respond_to?(:keys)
 					oargs = arg1
@@ -123,7 +123,7 @@ module Iowa
 				@locked = false
 
 				unless @use_lockfile
-					@mutex = Iowa::Mutex.new
+					@mutex = Mutex.new
 				else
 					@lockfile = Iowa::Lockfile.new(File::join(@cache_dir,'cachelock.lck'))
 				end

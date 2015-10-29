@@ -280,41 +280,45 @@ module Iowa
 		original_exception = nil
 		context = nil
 		loop do
-			response.content_type = Ctext_html
-			exception = nil
-			exception = catch(:session_error) do
-				begin
-					context = Iowa::Context.new(request, response)
-					context.prior_exception = original_exception if original_exception
-					app.handleRequest(context,dispatch_destination)
-				rescue Exception => exception
-				end
-			end
-			if exception.to_s != C_empty and exception.kind_of?(Exception)
-				mylog = Logger[Ciowa_log]
-				mylog.warn "Execution Error: #{exception} :: " + exception.backtrace.join(".....").to_s unless original_exception
-				if internal_host?(request)
-					mylog.info "Showing PrettyException"
-					response << Iowa::PrettyException.new(exception).to_s
-				else
-					if deployed_screen == false and dispatch_destination = checkScreen(exception)
-						dd = dispatch_destination.method ? "#{dispatch_destination.component}.#{dispatch_destination.method}" :
-							dispatch_destination.component
-						mylog.info "Deploying exception screen #{dd}"
-						response.status = Iowa::Response::InternalServerError
-						original_exception = exception
-						deployed_screen = true
-						retry
-					else
-						response.status = Iowa::Response::InternalServerError unless response.status >= 400
-						mylog.info "Showing ugly exception"
-						exception = original_exception if original_exception
-						response << "<p> An unhandled error has occured.  Please inform your system or site's administrator of the error.</p>" if response.status == Iowa::Response::InternalServerError
-						response << "<p>#{exception.to_s.gsub("<","&lt;")}<br/>"
-						response << "</p>"
-						status = 'EOUT'
+			begin
+				response.content_type = Ctext_html
+				exception = nil
+				exception = catch(:session_error) do
+					begin
+						context = Iowa::Context.new(request, response)
+						context.prior_exception = original_exception if original_exception
+						app.handleRequest(context,dispatch_destination)
+					rescue Exception => exception
 					end
 				end
+				if exception.to_s != C_empty and exception.kind_of?(Exception)
+					mylog = Logger[Ciowa_log]
+					mylog.warn "Execution Error: #{exception} :: " + exception.backtrace.join(".....").to_s unless original_exception
+					if internal_host?(request)
+						mylog.info "Showing PrettyException"
+						response << Iowa::PrettyException.new(exception).to_s
+					else
+						if deployed_screen == false and dispatch_destination = checkScreen(exception)
+							dd = dispatch_destination.method ? "#{dispatch_destination.component}.#{dispatch_destination.method}" :
+								dispatch_destination.component
+							mylog.info "Deploying exception screen #{dd}"
+							response.status = Iowa::Response::InternalServerError
+							original_exception = exception
+							deployed_screen = true
+							raise "retry"
+						else
+							response.status = Iowa::Response::InternalServerError unless response.status >= 400
+							mylog.info "Showing ugly exception"
+							exception = original_exception if original_exception
+							response << "<p> An unhandled error has occured.  Please inform your system or site's administrator of the error.</p>" if response.status == Iowa::Response::InternalServerError
+							response << "<p>#{exception.to_s.gsub("<","&lt;")}<br/>"
+							response << "</p>"
+							status = 'EOUT'
+						end
+					end
+				end
+			rescue
+				retry
 			end
 			break
 		end
@@ -415,7 +419,7 @@ module Iowa
 			#mylog.info logline
 		else
 			response = Iowa::Response.new(500)
-			response.body = status[1]
+			response.body = "BOOM: #{status[1]}"
 			message = Marshal.dump(response)
 			socket.write(message)
 			socket.flush
@@ -479,10 +483,10 @@ module Iowa
 				# This should be configurable and runtime toggleable.
 				TCPServer.do_not_reverse_lookup = true
 				if socket_host.to_s == ''
-					@server = TCPserver.new(socket_port)
+					@server = TCPServer.new(socket_port)
 					mylog.info "Listening at localhost:#{socket_port}."
 				else
-					@server = TCPserver.new(socket_host,socket_port)
+					@server = TCPServer.new(socket_host,socket_port)
 					mylog.info "Listening at #{socket_host}:#{socket_port}."
 				end
 				app.location = "#{my_ip_hex}#{my_port_hex}"

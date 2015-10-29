@@ -13,7 +13,7 @@ module Iowa
 
 			# {:mapfile => 'FILENAME', :poll_interval => 30, :map => {'/foo/bar.html' => 'Bar'}, :rewrites => [], :secondary_rewrites => []}
 			def initialize(*args)
-				@mutex = Iowa::Mutex.new
+				@mutex = Mutex.new
 				@mapfileMTime = Time.at(1)
 				@next_check = Time.at(1)
 				if args[0].respond_to?(:[])

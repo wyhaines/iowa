@@ -13,7 +13,7 @@ module Iowa
 		class EMHybrid < Iowa::Request
 
 			def setup(headers,params,body)
-				hn = headers[CX_FORWARDED_HOST] || headers[CHOST] || ''
+				hn = headers[CX_FORWARDED_HOST] || headers[CHTTP_HOST] || headers[CHOST]
 				@hostname,@port = hn.split(/:/)
 				@unparsed_uri = params[CREQUEST_URI]
 				@uri = params[CREQUEST_URI].gsub(/\?.*$/,'')
@@ -28,13 +28,11 @@ module Iowa
 				@headers_in = @headers = headers
 				
 				@params = {}
-				if m = MIMERegexp.match(@headers[CCONTENT_TYPE])
+				if m = MIMERegexp.match(@headers[CContent_type])
 					boundary = m[1]
-					body = StringIO.new(body) unless Tempfile === body || StringIO === body
-					@params = read_multipart(boundary,@headers[CCONTENT_LENGTH],body,@headers[CUSER_AGENT])
-
+					@params = read_multipart(boundary,@headers[CContent_length],body,@headers[CUser_agent])
 				else
-					body.each {|line| parse_params(line)}
+					body.each_line {|line| parse_params(line)}
 				end
 
 				parse_params(@args) if @args

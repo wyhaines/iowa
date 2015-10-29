@@ -77,9 +77,9 @@ module Iowa
 		run_check_started(*args)
 		mylog = Logger['iowa_log']
 
-		ruby = File.join(::Config::CONFIG['bindir'],
-			::Config::CONFIG['ruby_install_name'])
-		ruby << ::Config::CONFIG['EXEEXT']
+		ruby = File.join(::RbConfig::CONFIG['bindir'],
+			::RbConfig::CONFIG['ruby_install_name'])
+		ruby << ::RbConfig::CONFIG['EXEEXT']
 
 		@config[Cwebrick][Cdocroot] = nil unless @config[Cwebrick].has_key? Cdocroot
 		

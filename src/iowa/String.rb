@@ -1,3 +1,7 @@
+class String
+  alias :each :each_line
+end
+	
 module Iowa
 	class String < ::String
 		def unescape

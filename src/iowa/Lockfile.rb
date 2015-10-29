@@ -19,10 +19,10 @@ unless defined? $__lockfile__
   require 'socket'
   require 'timeout'
   require 'fileutils'
-  require 'iowa/Constants'
-  require 'thread'
+	require 'iowa/Constants'
+	require 'thread'
 
-  module Iowa
+	module Iowa
 
   class Lockfile
     class LockError < StandardError; end
@@ -66,7 +66,7 @@ unless defined? $__lockfile__
 
     HOSTNAME = Socket::gethostname
 
-    UNKNOWN                  = Iowa::UnknownValue.instance
+		UNKNOWN                  = Iowa::UnknownValue.instance
     DEFAULT_RETRIES          = nil    # maximum number of attempts
     DEFAULT_TIMEOUT          = 30    # the longest we will try
     DEFAULT_MAX_AGE          = 1024   # lockfiles older than this are stale
@@ -80,7 +80,7 @@ unless defined? $__lockfile__
     DEFAULT_POLL_MAX_SLEEP   = 0.08   # the longest we'll sleep between polls
     DEFAULT_DONT_SWEEP       = false  # if we cleanup after other process on our host
     DEFAULT_DONT_USE_LOCK_ID = false  # if we dump lock info into lockfile
-    DEFAULT_USE_FLOCK        = Iowa::UnknownValue.instance  # by default, try to figure it out
+		DEFAULT_USE_FLOCK        = Iowa::UnknownValue.instance  # by default, try to figure it out
 
 
     class << self
@@ -97,7 +97,7 @@ unless defined? $__lockfile__
       attr :poll_max_sleep, true
       attr :dont_sweep, true
       attr :dont_use_lock_id, true
-      attr :use_flock, true
+			attr :use_flock, true
 
       def init
         @retries          = DEFAULT_RETRIES
@@ -113,7 +113,7 @@ unless defined? $__lockfile__
         @poll_max_sleep   = DEFAULT_POLL_MAX_SLEEP
         @dont_sweep       = DEFAULT_DONT_SWEEP
         @dont_use_lock_id = DEFAULT_DONT_USE_LOCK_ID
-        @use_flock        = DEFAULT_USE_FLOCK
+				@use_flock        = DEFAULT_USE_FLOCK
       end
     end
 
@@ -140,7 +140,7 @@ unless defined? $__lockfile__
     attr :poll_max_sleep
     attr :dont_sweep
     attr :dont_use_lock_id
-    attr :use_flock
+		attr :use_flock
 
     alias thief? thief
     alias locked? locked
@@ -159,7 +159,7 @@ unless defined? $__lockfile__
         'dont_clean' => true,
         'dont_sweep' => false,
         'dont_use_lock_id' => true,
-        'use_flock' => false
+				'use_flock' => false
       }
       begin
         new(path, opts).lock
@@ -187,7 +187,7 @@ unless defined? $__lockfile__
       @poll_max_sleep   = getopt('poll_max_sleep') || @klass.poll_max_sleep
       @dont_sweep       = getopt('dont_sweep') || @klass.dont_sweep
       @dont_use_lock_id = getopt('dont_use_lock_id') || @klass.dont_use_lock_id
-      @use_flock        = getopt('use_flock') || @klass.use_flock
+			@use_flock        = getopt('use_flock') || @klass.use_flock
 
       @sleep_cycle = SleepCycle::new @min_sleep, @max_sleep, @sleep_inc 
 
@@ -196,158 +196,158 @@ unless defined? $__lockfile__
       @basename = File::basename @path
       @thief    = false
       @locked   = false
-      @mutex    = Iowa::Mutex.new
+			@mutex    = Mutex.new
 
       lock(&block) if block
     end
 
     def lock
-      @mutex.synchronize do
-        if @use_flock == UNKNOWN
-        # Test to see if we should use flock by first stating a known file,
-        # and checking to see if an inode value is returned, and then by
-        # trying to create a test link in the lockfile path and seeing if
-        # that works.  If either fails, use flock.
-        begin
-          known_stat = File::stat(__FILE__)
-          @use_flock = (known_stat.ino.to_i == 0)
-        rescue
-          @use_flock = true
-        end
-  
-        unless @use_flock == true
-          begin
-            orig_file = tmpnam(@path,'orig_file')
-            link_file = tmpnam(@path,'link_file')
-            File.open(orig_file,'w+') {}
-            File::link(orig_file,link_file)
-            File::unlink orig_file
-            File::unlink link_file
-            @use_flock = false
-          rescue
-            @use_flock = true
-          end
-        end
-  
-        self.class.use_flock = @use_flock
-      end
+			@mutex.synchronize do
+				if @use_flock == UNKNOWN
+					# Test to see if we should use flock by first stating a known file,
+					# and checking to see if an inode value is returned, and then by
+					# trying to create a test link in the lockfile path and seeing if
+					# that works.  If either fails, use flock.
+					begin
+						known_stat = File::stat(__FILE__)
+						@use_flock = (known_stat.ino.to_i == 0)
+					rescue
+						@use_flock = true
+					end
+	
+					unless @use_flock == true
+						begin
+							orig_file = tmpnam(@path,'orig_file')
+							link_file = tmpnam(@path,'link_file')
+							File.open(orig_file,'w+') {}
+							File::link(orig_file,link_file)
+							File::unlink orig_file
+							File::unlink link_file
+							@use_flock = false
+						rescue
+							@use_flock = true
+						end
+					end
+	
+					self.class.use_flock = @use_flock
+				end
 
-      ret = nil 
+ 	     ret = nil 
 
-      if @use_flock == true
-        begin
-          Timeout::timeout(@timeout) do
-            if block_given?
-              File.open(@path,'w+') do |fh|
-                fh.flock(File::LOCK_EX)
-                @locked = true
-                ret = yield @path
-                fh.flock(File::LOCK_UN)
-                @locked = false
-              end
-              return ret
-            else
-              @flock_fh = File.open(@path,'w+')
-              @flock_fh.flock(File::LOCK_EX)
-              @locked = true
-              return self
-            end
-          end
-        rescue
-          File::unlink @path if FileTest.exist? @path
-        end
-      else
-        sweep unless @dont_sweep
-  
-        attempt do
-          begin
-            @sleep_cycle.reset
-            create_tmplock do |f|
-              begin
-                Timeout::timeout(@timeout) do
-                  tmp_path = f.path
-                  tmp_stat = f.lstat
-                  n_retries = 0
-                  begin
-                    i = 0
-                    begin
-                      begin
-                        File::link tmp_path, @path
-                      rescue Errno::ENOENT
-                        try_again!
-                      end
-                      lock_stat = File::lstat @path
-                      raise StatLockError, "stat's do not agree" unless
-                        tmp_stat.rdev == lock_stat.rdev and tmp_stat.ino == lock_stat.ino 
-                      @locked = true
-                    rescue => e
-                      i += 1
-                      unless i >= @poll_retries 
-                        t = [rand(@poll_max_sleep), @poll_max_sleep].min
-                        sleep t
-                        retry
-                      end
-                      raise
-                    end
-   
-                  rescue => e
-                    n_retries += 1
-                    case validlock?
-                      when true
-                        raise MaxTriesLockError, "surpased retries <#{ @retries }>" if 
-                          @retries and n_retries >= @retries 
-                        sleeptime = @sleep_cycle.next 
-                        sleep sleeptime
-                      when false
-                        begin
-                          File::unlink @path
-                          @thief = true
-                          warn "<#{ @path }> stolen by <#{ Process.pid }> at <#{ timestamp }>"
-                        rescue Errno::ENOENT
-                        end
-                        sleep @suspend
-                      when nil
-                        raise MaxTriesLockError, "surpased retries <#{ @retries }>" if 
-                          @retries and n_retries >= @retries 
-                    end
-                    retry
-                  end # begin
-                end # timeout 
-              rescue Timeout::Error
-                raise TimeoutLockError, "surpassed timeout <#{ @timeout }>"
-              end # begin
-            end # create_tmplock
-  
-            if block_given?
-              stolen = false
-              refresher = (@refresh ? new_refresher : nil) 
-              begin
-                begin
-                  ret = yield @path
-                rescue StolenLockError
-                  stolen = true
-                  raise
-                end
-              ensure
-                begin
-                  refresher.kill if refresher and refresher.status
-                ensure
-                  unlock unless stolen
-                end
-              end
-            else
-              ObjectSpace.define_finalizer self, @clean if @clean
-              ret = self
-            end
-            rescue Errno::ESTALE, Errno::EIO => e
-              raise(NFSLockError, errmsg(e)) 
-            end
-          end
-  
-          return ret
-        end
-      end
-    end
+				if @use_flock == true
+ 	       begin
+					 	Timeout::timeout(@timeout) do
+							if block_given?
+								File.open(@path,'w+') do |fh|
+									fh.flock(File::LOCK_EX)
+									@locked = true
+									ret = yield @path
+									fh.flock(File::LOCK_UN)
+								  @locked = false
+								end
+								return ret
+							else
+								@flock_fh = File.open(@path,'w+')
+								@flock_fh.flock(File::LOCK_EX)
+								@locked = true
+								return self
+							end
+ 	         end
+					rescue
+						File::unlink @path if FileText.exist? @path
+					end
+				else
+ 	       sweep unless @dont_sweep
+	
+ 	       attempt do
+ 	         begin
+ 	           @sleep_cycle.reset
+ 	           create_tmplock do |f|
+ 	             begin
+ 	               Timeout::timeout(@timeout) do
+ 	                 tmp_path = f.path
+ 	                 tmp_stat = f.lstat
+ 	                 n_retries = 0
+ 	                 begin
+ 	                   i = 0
+ 	                   begin
+ 	                     begin
+ 	                       File::link tmp_path, @path
+ 	                     rescue Errno::ENOENT
+ 	                       try_again!
+ 	                     end
+ 	                     lock_stat = File::lstat @path
+ 	                     raise StatLockError, "stat's do not agree" unless
+ 	                       tmp_stat.rdev == lock_stat.rdev and tmp_stat.ino == lock_stat.ino 
+ 	                     @locked = true
+ 	                 rescue => e
+ 	                   i += 1
+ 	                   unless i >= @poll_retries 
+ 	                     t = [rand(@poll_max_sleep), @poll_max_sleep].min
+ 	                     sleep t
+ 	                     retry
+ 	                   end
+ 	                   raise
+ 	                 end
+ 	 
+ 	                 rescue => e
+ 	                   n_retries += 1
+ 	                   case validlock?
+ 	                     when true
+ 	                       raise MaxTriesLockError, "surpased retries <#{ @retries }>" if 
+ 	                         @retries and n_retries >= @retries 
+ 	                       sleeptime = @sleep_cycle.next 
+ 	                       sleep sleeptime
+ 	                     when false
+ 	                       begin
+ 	                         File::unlink @path
+ 	                         @thief = true
+ 	                         warn "<#{ @path }> stolen by <#{ Process.pid }> at <#{ timestamp }>"
+ 	                       rescue Errno::ENOENT
+ 	                       end
+ 	                       sleep @suspend
+ 	                     when nil
+ 	                       raise MaxTriesLockError, "surpased retries <#{ @retries }>" if 
+ 	                         @retries and n_retries >= @retries 
+ 	                   end
+ 	                   retry
+ 	                 end # begin
+ 	               end # timeout 
+ 	             rescue Timeout::Error
+ 	               raise TimeoutLockError, "surpassed timeout <#{ @timeout }>"
+ 	             end # begin
+ 	           end # create_tmplock
+	
+ 	           if block_given?
+ 	             stolen = false
+ 	             refresher = (@refresh ? new_refresher : nil) 
+ 	             begin
+ 	               begin
+ 	                 ret = yield @path
+ 	               rescue StolenLockError
+ 	                 stolen = true
+ 	                 raise
+ 	               end
+ 	             ensure
+ 	               begin
+ 	                 refresher.kill if refresher and refresher.status
+ 	               ensure
+ 	                 unlock unless stolen
+ 	               end
+ 	             end
+ 	           else
+ 	             ObjectSpace.define_finalizer self, @clean if @clean
+ 	             ret = self
+ 	           end
+ 	         rescue Errno::ESTALE, Errno::EIO => e
+ 	           raise(NFSLockError, errmsg(e)) 
+ 	         end
+ 	       end
+	
+ 	       return ret
+ 	     end
+			end
+		end
 
     def sweep
       begin
@@ -394,15 +394,15 @@ unless defined? $__lockfile__
 
     def unlock
       raise UnLockError, "<#{ @path }> is not locked!" unless @locked
-      if @flock_fh
-        begin
-          @flock_fh.flock(File::LOCK_UN)
-          @flock_fh.close
-          File::unlink @path
-        rescue Errno::ENOENT
-          raise StolenLockError, @path
-        end
-      else
+			if @flock_fh
+				begin
+			  	@flock_fh.flock(File::LOCK_UN)
+				  @flock_fh.close
+				  File::unlink @path
+				rescue Errno::ENOENT
+					raise StolenLockError, @path
+				end
+			else
         begin
           File::unlink @path
         rescue Errno::ENOENT
@@ -412,7 +412,7 @@ unless defined? $__lockfile__
           @locked = false
           ObjectSpace.undefine_finalizer self if @clean
         end
-      end
+			end
     end
 
     def new_refresher

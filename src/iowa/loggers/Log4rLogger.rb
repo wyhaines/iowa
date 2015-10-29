@@ -8,7 +8,7 @@ module Iowa
 			def check_errors
 				if Iowa.config.has_key? Clogging
 					if Iowa.config[Clogging].has_key? Cbasedir
-						raise "The logging basedir (#{Iowa.config[Clogging][Cbasedir]}) must be a directory." unless FileTest.directory? Iowa.config[Clogging][Cbasedir]
+						raise "The logging basedir (#{File.join(Dir.pwd,Iowa.config[Clogging][Cbasedir])}) must be a directory." unless FileTest.directory? Iowa.config[Clogging][Cbasedir]
 						raise "The logging basedir #{Iowa.config[Clogging][Cbasedir]}) must be writeable." unless FileTest.writable? Iowa.config[Clogging][Cbasedir]
 					end
 		

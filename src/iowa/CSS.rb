@@ -1,6 +1,6 @@
 require 'iowa/LinkedList'
 require 'iowa/caches/LRUCache'
-require 'iowa/Mutex'
+require 'thread'
 
 class Numeric
 	def px;Iowa::CSS::PX.new(self);end
@@ -407,7 +407,7 @@ module Iowa
 		attr_accessor :output
 
 		def initialize(css = nil,with_cache = false)
-			@mutex = Iowa::Mutex.new
+			@mutex = Mutex.new
 			@output = [CSSList.new]
 			@conditions = []
 			if with_cache

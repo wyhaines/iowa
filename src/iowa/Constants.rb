@@ -80,7 +80,7 @@ module Iowa
 	CCONTENT_LENGTH = 'CONTENT-LENGTH'.freeze
 	CContent_Type = 'Content-Type'.freeze
 	CContent_type = 'Content-type'.freeze
-	CCONTENT_TYPE = 'CONTENT-TYPE'.freeze
+	CCONTENT_TYPE = 'CONTENT_TYPE'.freeze
 	CContentClasses = 'ContentClasses'.freeze
 	CCookie = 'Cookie'.freeze
 	Ccookie = 'cookie'.freeze
@@ -109,7 +109,6 @@ module Iowa
 	Cfalse = 'false'.freeze
 	CFALSE = 'false'.freeze
 	Cfatal = 'fatal'.freeze
-	Cfile = 'file'.freeze
 	Cfilename = 'filename'.freeze
 	Cfiles = 'files'.freeze
 	Cforce = 'force'.freeze
@@ -209,7 +208,6 @@ module Iowa
 	Cuse_lockfile = 'use_lockfile'.freeze
 	CUser_agent = 'User_agent'.freeze
 	CUserAgent = 'User-Agent'.freeze
-	CUSER_AGENT = 'USER-AGENT'.freeze
 	Cvalue = 'value'.freeze
 	Cvariation = 'variation'.freeze
 	Cwarn = 'warn'.freeze

@@ -5,7 +5,7 @@
 # Modified for IOWA by Kirk Haines
 ###################################################
 
-require 'rdoc/template'
+require 'rdoc'
 require 'rbconfig'
 
 ###################################################
@@ -149,7 +149,7 @@ module Iowa
 	        text = nil
 	      end
 	      is_stdlib = false
-	      paths = [Config::CONFIG['rubylibdir'], Config::CONFIG['sitedir']]
+	      paths = [RbConfig::CONFIG['rubylibdir'], RbConfig::CONFIG['sitedir']]
 	      paths.each do |dir| 
 	        is_stdlib = true if (file =~ /#{Regexp::escape(dir)}/)
 	      end
@@ -732,9 +732,12 @@ class LexerOld < LexerBase
 		end
 		state = @states[0]
 		case state
-		when State::Heredoc: lex_line_heredoc(text)
-		when State::Comment: lex_line_comment(text)
-		when State::Endoffile: lex_line_endoffile(text)
+		when State::Heredoc
+			 lex_line_heredoc(text)
+		when State::Comment
+			 lex_line_comment(text)
+		when State::Endoffile
+			 lex_line_endoffile(text)
 		else
 			raise "unknown state #{state.class}"
 		end

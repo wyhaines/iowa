@@ -45,6 +45,7 @@ module Iowa
 		
 		def initiate(request=nil)
 			@request = Iowa::Request.new_request(request)
+File.open("/tmp/cgi.out","a+") {|fh| fh.puts "Client in #{@request.inspect}"}
 			m = Marshal.dump(@request)
 			@socket.write(m)
 			@socket.flush
@@ -55,12 +56,14 @@ module Iowa
 		
 		def receive
 			m = ''
-			while (recv = @socket.recv(1024)) != ""
+			while (recv = @socket.recv(8192)) != ""
 			  m << recv
 			end
 			@socket.close
 			@socket = nil
+File.open("/tmp/cgi.out","a+") {|fh| fh.puts "Client out #{m}"}
 			@response = Marshal.load(m)
+File.open("/tmp/cgi.out","a+") {|fh| fh.puts "Client out #{@response.inspect}"}
 			@response.content_type = Ctext_html unless @response.content_type.to_s != C_empty
 		end
 

@@ -1,5 +1,4 @@
 require 'iowa/Util'
-require 'tempfile'
 
 module Iowa
 
@@ -25,19 +24,11 @@ module Iowa
 		def initialize(name,content_type,*content)
 			@name = name
 			@content_type = content_type
-			content.each {|piece| self << piece}
+			self.concat(content)
 		end
 		
-		def to_s # could get heavy on the RAM if the file is big.
-			r = ''
-			self.each do |piece|
-				if Tempfile === piece || StringIO === piece
-					piece.rewind
-					r << piece.read
-				else
-					r << piece
-				end
-			end
+		def to_s
+			self.join
 		end
 
 		# Create a file with a path/name as in @name, and write the current
@@ -54,20 +45,14 @@ module Iowa
 			@name = @name.to_s
 			
 			if @name == ''
-				handle = Tempfile.new('IowaFile')
+				require 'tempfile'
+				handle = Tempfile.new('IowaFile','/tmp')
 			else
 				handle = File.new(@name,'w+')
 			end
 			
 			if handle
-				self.each do |piece|
-					if Tempfile === piece || StringIO === piece
-						piece.rewind
-						handle.write piece.read
-					else
-						handle.write piece
-					end
-				end
+				handle.write self.join
 				handle.rewind
 			end
 			
@@ -101,7 +86,7 @@ module Iowa
 			@request_type = val
 		end
 		
-		def read_multipart(boundary, content_length, instream, user_agent)
+		def read_multipart(boundary, content_length,instream,user_agent)
 			content_length = content_length.to_i
 			params = Hash.new([])
 			boundary = "--" + boundary
@@ -117,24 +102,11 @@ module Iowa
 			loop do
 				head = nil
 				body = ''
-				filename = nil
 	
 				until head and /#{boundary}(?:#{EOL}|--)/n.match(buf)
 					if (not head) and /#{EOL}#{EOL}/n.match(buf)
 						buf = buf.sub(/\A((?:.|\n)*?#{EOL})#{EOL}/n) do
 							head = $1.dup
-							/Content-Disposition:.* filename="?([^\";]*)"?/ni.match(head)
-							filename = (($1 && $1.any? && $1) || nil)
-
-							if /Mac/ni.match(user_agent) && /Mozilla/ni.match(user_agent) && (! /MSIE/ni.match(user_agent))
-								filename = Iowa::Util.unescape(filename) if filename
-							end
-	
-							if filename
-								body = Tempfile.new("IOWA_multipart_file")
-								body.binmode  if body.respond_to?(:binmode)
-							end
-
 							""
 						end
 						next
@@ -153,7 +125,7 @@ module Iowa
 					if c.nil? || c.empty?
 						raise EOFError, "bad content body"
 					end
-					buf << c
+					buf.concat(c)
 					content_length -= c.size
 				end
 	
@@ -165,14 +137,22 @@ module Iowa
 					""
 				end
 		
+				/Content-Disposition:.* filename="?([^\";]*)"?/ni.match(head)
+				filename = ($1 or "")
+				if /Mac/ni.match(user_agent) and
+					/Mozilla/ni.match(user_agent) and
+					(not /MSIE/ni.match(user_agent))
+					filename = Iowa::Util.unescape(filename)
+				end
+	
 				/Content-type: (.*)/ni.match(head)
 				content_type = ($1 or "")
-
+	
 				/Content-Disposition:.* name="?([^\";]*)"?/ni.match(head)
 				name = $1.dup
 	
 				data = nil
-				if filename
+				if content_type.to_s != ''
 					data = Iowa::FileData.new(filename,content_type,body)
 				else
 					data = body

@@ -112,16 +112,20 @@ module Iowa
 			iter = 0
 			component = nil
 			loop do
-				if ElementClasses.has_key?(relative_name.downcase)
-					break component = Component.pageNamed(relative_name, @session, self)
-				else
-					if iter < 1
-						iter += 1
-						Iowa.app.reloadModified(relative_name,true)
-						retry
+				begin
+					if ElementClasses.has_key?(relative_name.downcase)
+						break component = Component.pageNamed(relative_name, @session, self)
 					else
-						break component = Component.pageNamed(name, @session, self)
+						if iter < 1
+							iter += 1
+							Iowa.app.reloadModified(relative_name,true)
+							raise "retry"
+						else
+							break component = Component.pageNamed(name, @session, self)
+						end
 					end
+				rescue
+					retry
 				end
 			end
 			args.each do |arg|

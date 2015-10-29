@@ -90,8 +90,7 @@ module Iowa
 		
 		def post_init
 			@parser = Iowa::HttpParser.new
-			@params = {}
-			@headers = {}
+			@headers = @params = {}
 			@nparsed = 0
 			@request = nil
 			@request_len = nil
@@ -110,12 +109,7 @@ module Iowa
 		def process_http_request(headers,params,buffer)
 			unless handle_file(params,headers)
 				clen = buffer.length - headers[CCONTENT_LENGTH].to_i
-				if Tempfile === buffer
-					buffer.seek(clen)
-					body = buffer
-				else
-					body = buffer[clen,headers[CCONTENT_LENGTH].to_i]
-				end
+				body = buffer[clen,headers[CCONTENT_LENGTH].to_i]
 				request = Iowa::Request::EMHybrid.new(headers,params,body)
 				response = Iowa.handleConnection request
 
@@ -132,7 +126,7 @@ module Iowa
 		
 		def receive_data data
 			@linebuffer << data
-			@nparsed = @parser.execute(@headers, @params, @linebuffer, @nparsed) unless @parser.finished?
+			@nparsed = @parser.execute(@headers, @linebuffer, @nparsed) unless @parser.finished?
 			if @parser.finished?
 				if @request_len.nil?
 					@request_len = @nparsed + @headers[CCONTENT_LENGTH].to_i
@@ -151,7 +145,7 @@ module Iowa
 				raise MaxHeaderExceeded
 			end
 		rescue => e
-			Logger['iowa_log'].error "Error while reading request: #{e}\n#{e.backtrace.inspect}"
+			Logger['iowa_log'].error "Error while reading request: #{e}\n#{e.backtrace.join("\n")}"
 			close_connection
 		end
 	end

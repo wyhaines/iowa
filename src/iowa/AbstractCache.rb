@@ -30,7 +30,7 @@ module Iowa
 			begin
 				@max = args[Cmaxsize] || 20
 				@maxttl = args[Cttl]
-				@mutex = Iowa::Mutex.new
+				@mutex = Mutex.new
 			rescue Exception
 				args = {Cmaxsize => 20, Cttl => nil}
 				retry

@@ -141,8 +141,8 @@ module Iowa
 		my_ip = @config[Csocket][Chostname]
 		my_ip_hex = my_ip.split('.',4).collect {|x| to_hex(x)}.join
 
-		ruby = File.join(::Config::CONFIG['bindir'],
-			::Config::CONFIG['ruby_install_name']) << ::Config::CONFIG['EXEEXT']
+		ruby = File.join(::RbConfig::CONFIG['bindir'],
+			::RbConfig::CONFIG['ruby_install_name']) << ::RbConfig::CONFIG['EXEEXT']
 		
 		if @config[Csocket].has_key? Cport
 			socket_host = @config[Csocket][Chostname]

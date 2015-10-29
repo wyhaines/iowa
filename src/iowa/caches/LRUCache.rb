@@ -1,5 +1,5 @@
 require 'enumerator'
-require 'iowa/Mutex'
+require 'thread'
 require 'iowa/Constants'
 require 'iowa/Hash'
 
@@ -41,7 +41,7 @@ module Iowa
 				begin
 					@max = args[Cmaxsize] || 20
 					@maxttl = args[Cttl]
-					@mutex = Iowa::Mutex.new
+					@mutex = Mutex.new
 				rescue Exception
 					args = {Cmaxsize => args || 20, Cttl => ttlarg}
 					retry
