@@ -117,7 +117,7 @@ module Iowa
 		def parseTag(match)
 			if(match[Shortform])
 				if match[WholeShortform][0,2] == C_atat
-					startToken(Clink, match[Shortform], C_)
+					startToken('url', match[Shortform], C_)
 				else
 					startToken(CdynamicString, match[Shortform], C_)
 				end
