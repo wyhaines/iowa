@@ -182,7 +182,7 @@ VALUE Classifier_resolve(VALUE self, VALUE item)
     if(pref_len == 1 && item_str[0] == '/') {
       rb_ary_push(result, item);
     } else {
-      rb_ary_push(result, rb_str_substr(item, pref_len, RSTRING(item)->len));
+      rb_ary_push(result, rb_str_substr(item, pref_len, RSTRING_LEN(item)));
     }
       
     rb_ary_push(result, (VALUE)handler);
