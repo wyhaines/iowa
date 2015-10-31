@@ -21,7 +21,7 @@ module Iowa
 				conf[Cservice] ||= 'default'
 				conf[Chost] ||= '127.0.0.1'
 				conf[Cport] ||= 6766
-				conf[Ckey] ||= nil
+				conf[Ckey] = nil unless conf.has_key?(Ckey)
 			end
 
 			def open

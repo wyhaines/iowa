@@ -38,7 +38,7 @@ module Iowa
 
 		def connection_completed
 			@completed = true
-			key = ::Iowa.config[Capplication][Ckey] || ''
+			key = ::Iowa.config[Capplication].has_key?(Ckey) ? ::Iowa.config[Capplication][Ckey] : C_empty
 			send_data "swiftclient#{Iowa.app.location}#{key.length}#{key}"
 		end
 

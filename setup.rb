@@ -50,7 +50,7 @@ Package.setup("1.0") {
 		doc(*Dir["external/mime-types/doc/**/*"])
 	end
 
-	if /win/ == Config::CONFIG['host_os']
+	if /win/ == RbConfig::CONFIG['host_os']
 		begin
 			require 'windows/process'
 		rescue LoadError
