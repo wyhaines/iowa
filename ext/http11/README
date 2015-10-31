@@ -1,9 +1,11 @@
-This parser is a slightly modified version of the parser found in Mongrel
+IOWA originally used a slightly modified version of the parser found in Mongrel
 version 0.3.13.3.
 
-This version of the parser code separates the trie classifier code from
-the http parser, and modifies the parser to return information in a
-style that is more directly usable by IOWA.
+At that time, there was a trie based classifier that was bundled into the parser.
+The IOWA version removed that into a separate extension, and also made some other
+small modifications to the parser to separate the headers from the params. Now,
+8 years later, this seems like a poor idea.
 
-You may find the original code at http://mongrel.rubyforge.org
-
+This version still contains some very minor modifications for IOWA, but it retains
+the base design where HTTP headers and request params all are inserted into the
+same hash.
