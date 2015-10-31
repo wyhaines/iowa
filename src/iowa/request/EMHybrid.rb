@@ -1,4 +1,3 @@
-# -*- coding: ISO-8859-1 -*-
 require 'iowa/Request'
 require 'time'
 

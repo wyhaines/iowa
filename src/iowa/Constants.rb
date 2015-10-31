@@ -125,6 +125,8 @@ module Iowa
   Chosts = 'hosts'.freeze
   Chref = 'href'.freeze
   CHTTP_ = 'HTTP_'.freeze
+  CHTTP_ACCEPT_LANGUAGE = 'HTTP_ACCEPT_LANGUAGE'.freeze
+  CHTTP_CONTENT_LENGTH = 'HTTP_CONTENT_LENGTH'.freeze
   CHTTP_HOST = 'HTTP_HOST'.freeze
   Cid = 'id'.freeze
   CIF_MODIFIED_SINCE = 'IF-MODIFIED-SINCE'.freeze

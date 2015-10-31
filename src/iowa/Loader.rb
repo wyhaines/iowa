@@ -9,14 +9,14 @@
 
 module Iowa
 
-	class Loader
+  class Loader
 
-		LOADERS = []
-		
-		def self.add_loader(loader)
-			LOADERS.push loader
-		end
-		
-	end
+    LOADERS = []
+    
+    def self.add_loader(loader)
+      LOADERS.push loader
+    end
+    
+  end
 
 end
