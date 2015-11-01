@@ -458,11 +458,13 @@ module Iowa
 				ah = args.shift
 				daemonize = ah[:daemonize] ? true : false
 				path = ah[:config] ? ah[:config] : args[0] ? args.shift.to_s : nil
-				path = File.basename($0).sub(/\.\w+$/,'.cnf') unless path
+				path = File.join( Iowa::Application.root_directory,
+                                                  File.basename($0).sub( /\.\w+$/, '.cnf' ) ) unless path
 			else
 				daemonize = (args[0].is_a?(TrueClass) or args[0].is_a?(FalseClass)) ? args.shift : nil
 				path = args[0] ? args.shift.to_s : nil
-				path = File.basename($0).sub(/\.\w+$/,'.cnf') unless path
+				path = File.join( Iowa::Application.root_directory,
+                                                  File.basename($0).sub( /\.\w+$/, '.cnf' ) ) unless path
 			end
 
 			startDaemon(path,daemonize)
@@ -527,7 +529,7 @@ module Iowa
 		if @app
 			@app
 		else
-			@app = Application.newApplication(Dir.getwd)
+			@app = Application.newApplication(Application.root_directory)
 		end
 	end
 

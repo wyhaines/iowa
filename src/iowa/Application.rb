@@ -39,6 +39,10 @@ module Iowa
 
     @applicationClass = self
 
+    def self.root_directory
+      File.dirname( File.expand_path( Process.argv0 ) )
+    end
+
     def self.applicationClass
       @applicationClass
     end
@@ -104,7 +108,7 @@ module Iowa
     def self.iowa_root
       ic = Iowa.config[Capplication]
       if (ic[Croot_path].nil? or ic[Croot_path].empty?) and (ic[Ciowa_root].nil? or ic[Ciowa_root].empty?)
-        ic[Croot_path] = ic[Ciowa_root] = Dir.getwd
+        ic[Croot_path] = ic[Ciowa_root] = Application.root_directory
       elsif ic[Ciowa_root].nil? or ic[Ciowa_root].empty?
         ic[Ciowa_root] = ic[Croot_path]
       elsif ic[Croot_path].nil? or ic[Croot_path].empty?

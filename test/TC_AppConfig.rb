@@ -18,17 +18,12 @@ class TC_AppConfig < Test::Unit::TestCase
 			@iowa_pid = IWATestSupport::create_process(:dir => 'TC_AppConfig/iowa',
 				:cmd => [ruby,'-I../../../src','app.rb'])
 			sleep 1
-			@wb_pid = IWATestSupport::create_process(:dir => 'TC_AppConfig',
-				:cmd => [ruby,'-I../../../src','webrick.rb'])
-			sleep 1
 		end
 	end
 
 	def teardown
 		Process.kill "SIGKILL",@iowa_pid
 		Process.wait @iowa_pid
-		Process.kill "SIGKILL",@wb_pid
-		Process.wait @wb_pid
 		sleep 1
 	end
 	

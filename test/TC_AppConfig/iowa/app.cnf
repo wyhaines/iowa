@@ -1,7 +1,8 @@
 socket:
   hostname: 127.0.0.1
-  port: 47991
+  port: 47990
 logging:
+  class: Logger
   basedir: ../log
   minlevel: 0
   maxsize: 10000000
