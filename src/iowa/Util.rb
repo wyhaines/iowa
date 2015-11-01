@@ -286,26 +286,20 @@ module Iowa
         parts.push x
       end
       klass = nil
-puts "all places: #{places.inspect}"
       places.each do |place|
-puts "place: #{place}"
         has_suffix = parts.last.first =~ /\.\w+$/
         paths = path_combinations(parts.dup,Iowa::String.new(place))
         unless has_suffix
           paths.collect! {|x| x = x + '.rb'}
         end
-puts "all paths: #{paths.inspect}"
         match = paths.select do |path|
            FileTest.exists? path
         end
-puts "match: #{match.inspect}"
         if match.first
           require match.first
           klass_name = find_class__match_path(match.first,places).sub(/^#{File::SEPARATOR}/,'')
-puts "pre klass_name: #{klass_name}"
           klass_name = "#{classpath_prefix}#{File::SEPARATOR}#{klass_name}" if klass_name and klass_name !~ /^iowa/i
           if klass_name
-puts "klass_name: #{klass_name}"
             klass = klass_name.split(File::SEPARATOR).collect do |x|
               Iowa::String.new(x).constant_case
             end.inject(Object) { |o,n| o.const_get n }
