@@ -154,9 +154,9 @@ module Iowa
 		unless @config.has_key?(Clogger)
 			if @config.has_key?(Clogging)
 				@config[Clogger] = @config[Clogging]
-				@config[Clogger][Cclass] = 'Log4rLogger'
+				@config[Clogger][Cclass] = 'Log4rLogger' unless @config[Clogger].has_key?(Cclass)
 			else
-				@config[Clogger][Cclass] = 'RubyLogger'
+				@config[Clogger][Cclass] = 'Logger'
 			end
 		end
 		@config[Clogger][Cbasedir] = @config[Capplication][Clog_root] || '.' unless @config[Clogger].has_key?(Cbasedir)

@@ -152,6 +152,7 @@ module Iowa
         iwabd = File.dirname(iowa_root)
         iwadr = names.inject(nil) {|dr,n| FileTest.exist?(File.join([iwabd,n].select {|x|x})) ? (dr = n) : dr}
         ic[item] = iwadr ? File.join(iwabd,iwadr) : nil
+        ic[item]
       else
         ic[item]
       end
