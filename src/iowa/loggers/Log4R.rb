@@ -2,12 +2,12 @@ require 'iowa/Logger'
 require 'log4r'
 
 module Iowa
-	module Loggers
-		class Log4R < Iowa::Logger
+  module Loggers
+    class Log4R < Iowa::Logger
 
-			def open
-			end
+      def open
+      end
 
-		end
-	end
+    end
+  end
 end
