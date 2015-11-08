@@ -600,6 +600,7 @@ module Iowa
     end
 
     def reloadLoop(pathlist)
+      return unless pathlist
       mylog = Logger[Ciowa_log]
       pathlist.each do |path|
         next if @templateRTimes[path] > Time.now

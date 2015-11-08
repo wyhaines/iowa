@@ -1,5 +1,4 @@
 require 'net/http'
-require 'parsedate'
 require 'iowa/caches/LRUCache'
 
 module Iowa
@@ -18,8 +17,7 @@ module Iowa
 			item.etag = query['etag']
 			if query['expires']
 				begin
-					d = ParseDate.parsedate(query['expires'])
-					item.expires = Time.local(*d)
+					item.expires = Date.parse(query['expires']).to_time
 				rescue Exception
 				end
 			else
@@ -29,8 +27,7 @@ module Iowa
 
 			if query['last_modified']
 				begin
-					d = ParseDate.parsedate(query['last_modified'])
-					item.last_modified = Time.local(*d)
+					item.last_modified = Date.parse(query['last_modified']).to_time
 				rescue Exception
 				end
 			end
