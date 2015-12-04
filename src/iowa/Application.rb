@@ -639,7 +639,7 @@ module Iowa
             r.push fullname
           end
         end
-        r.sort
+        r.flatten.sort
       end
 
       pathlist = search_proc.call(@docroot)

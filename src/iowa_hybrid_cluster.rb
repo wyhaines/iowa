@@ -108,9 +108,7 @@ module Iowa
 
     def process_http_request(headers,params,buffer)
       unless handle_file(params,headers)
-File.open("/tmp/data.out","a+") {|fh| fh.puts "PROCESS HTTP REQUEST: #{buffer.length - headers[CHTTP_CONTENT_LENGTH].to_i} = #{buffer.length} - #{headers[CHTTP_CONTENT_LENGTH].to_i}" }
         clen = buffer.length - headers[CHTTP_CONTENT_LENGTH].to_i
-File.open("/tmp/data.out","a+") {|fh| fh.puts "#{buffer[clen,headers[CHTTP_CONTENT_LENGTH].to_i]} (#{clen}..#{headers[CHTTP_CONTENT_LENGTH].to_i})" }
         body = buffer[clen,headers[CHTTP_CONTENT_LENGTH].to_i]
         request = Iowa::Request::EMHybrid.new(headers,params,body)
         response = Iowa.handleConnection request
@@ -141,7 +139,6 @@ File.open("/tmp/data.out","a+") {|fh| fh.puts "#{buffer[clen,headers[CHTTP_CONTE
         end
 
         if @linebuffer.length >= @request_len
-File.open("/tmp/data.out","a+") {|fh| fh.puts "BUFFER>>>>#{@linebuffer}<<<<"}
           process_http_request(@headers,@params,@linebuffer)
         end
       elsif @linebuffer.length > MAX_HEADER
