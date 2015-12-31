@@ -172,11 +172,14 @@ module Iowa
 		end
 	
 		# Specify a starting page name.
-		def startingPageName; CMain; end
+		def startingPageName; 'Main'; end
 		
 		# Return a component for the starting page; should use startingPageName.
 		def startingPage
 			Component.pageNamed(startingPageName,self)
+		rescue Exception => e
+			Logger[Ciowa_log].error "Starting page selection failed with #{e}\n#{e.backtrace.join("\n")}"
+			raise e
 		end
 		
 		# Invokes the handleResponse() method on the object representing the page
@@ -185,7 +188,6 @@ module Iowa
 		def handleResponse(context, dispatch_destination = nil)
 			context.phase = :handleResponse
 			return if context.do_not_render
-
 			@currentPage = Component.pageNamed(dispatch_destination.component,self,nil,nil,nil) if dispatch_destination and dispatch_destination.component
 			@currentPage = startingPage unless @currentPage
 			if !dispatch_destination.nil? and (ddm = dispatch_destination.method) and !FCM.has_key?(ddm)
@@ -232,6 +234,9 @@ module Iowa
 					@application.rendered_content[fp] = [context.response_buffer,context.response.content_type,context.response.headers] if fp
 				end
 			end
+		rescue Exception => e
+			Logger[Ciowa_log].error "Application#handleResponse exception: #{e}\n#{e.backtrace.join("\n")}"
+			raise e
 		end
 
 		# If one passes into resource_url content of some sort plus an optional

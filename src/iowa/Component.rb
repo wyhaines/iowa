@@ -55,7 +55,7 @@ module Iowa
 			else
 				if !import_attempted
 					import_attempted = true
-					Iowa::Log.info("#{name} -- #{self.name}")
+					Iowa::Log.info("Attempting to import #{name} as a #{self.name}")
 					Iowa.app.import(name,self.name)
 					pageNamed(name.capitalize,session,prevPage,true,raise_exception)
 				elsif raise_exception
