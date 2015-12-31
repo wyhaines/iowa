@@ -1,4 +1,4 @@
-require 'tmail'
+require 'mail'
 require 'net/smtp'
 require 'forwardable'
 
@@ -132,7 +132,7 @@ module Iowa
 
 		def email_init(params = {})
 			@body_generated_flag = false
-			@mail_obj = TMail::Mail.new unless mail_obj
+			@mail_obj = ::Mail.new unless mail_obj
 			self.subject = " "
 			self.content_type = 'text/plain' unless self.content_type
 			if h = self.class.instance_variable_get('@additional_headers')
@@ -246,6 +246,7 @@ module Iowa
 			email_context.sessionID = session.context.sessionID
             email_context.requestID = session.requestCount
 			handleResponse(email_context)
+File.open("/tmp/tmail.out","a+") {|fh| fh.puts "Raw body of email: #{email_context.response_buffer}" }
 			self.body = email_context.response_buffer
 		end
 		
@@ -259,17 +260,10 @@ module Iowa
 				mime_version = '1.0'
 			end
 			generate_body unless body_generated?
-			if smtp_connection
-				smtp_connection.send_message(mail_obj.encoded, from, recipients)
-			else
-				args = []
-				args.push smtp_account if smtp_account
-				args.push smtp_password if smtp_password
-				args.push authentication if authentication
-				Net::SMTP.start(smtp_server, smtp_port, helo_domain, *args) {|smtp|
-					smtp.send_message(mail_obj.encoded, from, recipients)
-				}
-			end
+			@mail_obj.delivery_method(:smtp, address: self.smtp_server, port: self.smtp_port)
+                        @mail_obj.deliver
+		rescue Exception => e
+			Logger['iowa_log'].info "EMAIL SEND FAILED: #{e}\n#{e.backtrace.join("\n")}"
 		end
 		alias :send_email :send
 
