@@ -444,17 +444,8 @@ module Iowa
     end
 
     def rendered_content
-      init_rendered_content
+      @rendered_content ||= Iowa::Caches::LRUCache.new({:maxsize => 100})
     end
-
-    private
-    def init_rendered_content
-      @rendered_content = Iowa::Caches::LRUCache.new({:maxsize => 100})
-      def rendered_content
-        @rendered_content
-      end
-    end
-    public
 
     def rand(num)
       @policy.rand(num)
@@ -658,7 +649,7 @@ module Iowa
           begin
             template = @templateCache[pfn].self
           rescue Exception => e
-            Logger[Ciowa_log].info e
+            Logger[Ciowa_log].info "Error: #{e}\n#{e.backtrace.join("\n")}"
             #reload(File.new(pathForName(name)))
             reload(File.new(pfn))
             rtc += 1
