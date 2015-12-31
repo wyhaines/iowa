@@ -293,7 +293,7 @@ module Iowa
         handleRequestOrResponse(:handleRequest, context)
         if index
           list = context.getBinding(@bindings[Clist])
-          if index.index(0)
+          if index.index(0.chr)
             c = []
             #index.split(0.chr).each do |i|
             for i in index.split(0.chr)
