@@ -1,4 +1,9 @@
-require 'mail'
+if RUBY_VERSION =~ /^1\.8/
+  require 'tmail'
+else
+  require 'mail'
+end
+
 require 'net/smtp'
 require 'forwardable'
 
@@ -244,9 +249,8 @@ module Iowa
 			@body_generated_flag = true
 			email_context = Iowa::Context.new(session.context.request,Iowa::Response.new)
 			email_context.sessionID = session.context.sessionID
-            email_context.requestID = session.requestCount
+			email_context.requestID = session.requestCount
 			handleResponse(email_context)
-File.open("/tmp/tmail.out","a+") {|fh| fh.puts "Raw body of email: #{email_context.response_buffer}" }
 			self.body = email_context.response_buffer
 		end
 		
@@ -260,8 +264,20 @@ File.open("/tmp/tmail.out","a+") {|fh| fh.puts "Raw body of email: #{email_conte
 				mime_version = '1.0'
 			end
 			generate_body unless body_generated?
-			@mail_obj.delivery_method(:smtp, address: self.smtp_server, port: self.smtp_port)
-                        @mail_obj.deliver
+			if RUBY_VERSION =~ /^1\.8/
+				if smtp_connection
+					smtp_connection.send_message(mail_obj.encoded, from, recipients)
+				else
+					args = []
+					args.push smtp_account if smtp_account
+					args.push smtp_password if smtp_password
+					args.push authentication if authentication
+					Net::SMTP.start(smtp_server, smtp_port, helo_domain, *args) {|smtp| smtp.send_message(mail_obj.encoded, from, recipients) }
+				end
+                        else
+			  @mail_obj.delivery_method(:smtp, :address => self.smtp_server, :port => self.smtp_port)
+                          @mail_obj.deliver
+                        end
 		rescue Exception => e
 			Logger['iowa_log'].info "EMAIL SEND FAILED: #{e}\n#{e.backtrace.join("\n")}"
 		end

@@ -40,7 +40,11 @@ module Iowa
     @applicationClass = self
 
     def self.root_directory
-      File.dirname( File.expand_path( Process.argv0 ) )
+      if RUBY_VERSION =~ /^1\.8/
+        Dir.getwd # fix this
+      else
+        File.dirname( File.expand_path( Process.argv0 ) )
+      end
     end
 
     def self.applicationClass

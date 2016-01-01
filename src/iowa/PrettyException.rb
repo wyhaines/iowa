@@ -5,7 +5,9 @@
 # Modified for IOWA by Kirk Haines
 ###################################################
 
-require 'rdoc'
+if RUBY_VERSION !~ /^1\.8/
+  require 'rdoc'
+end
 require 'rbconfig'
 
 ###################################################
