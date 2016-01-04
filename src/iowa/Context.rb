@@ -15,7 +15,7 @@ module Iowa
 			@request = request
 			request.context = self
 			@headers = request.headers #Yuck.  Can I change this?
-			setup_cookies if @headers.has_key?(CCOOKIE) or @headers.has_key?(CCookie)
+			setup_cookies if @headers.has_key?(CHTTP_COOKIE) or @headers.has_key?(CCOOKIE) or @headers.has_key?(CCookie)
 			if rc = @request.params[Crequest_cacheable]
 				if rc == C0 or rc == Cfalse or rc == CFALSE
 					self[:request_cacheable] = false
@@ -37,7 +37,7 @@ module Iowa
 		end
 	
 		def setup_cookies
-			rh = request.headers[CCOOKIE] || request.headers[CCookie]
+			rh = request.headers[CHTTP_COOKIE] || request.headers[CCOOKIE] || request.headers[CCookie]
 			rh.split(C_semicolon).each do |cookie|
 				k,v = cookie.split(C_equal)
 				k.strip!

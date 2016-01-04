@@ -128,6 +128,7 @@ module Iowa
   CHTTP_ACCEPT_LANGUAGE = 'HTTP_ACCEPT_LANGUAGE'.freeze
   CHTTP_CONTENT_LENGTH = 'HTTP_CONTENT_LENGTH'.freeze
   CHTTP_HOST = 'HTTP_HOST'.freeze
+  CHTTP_COOKIE = 'HTTP_COOKIE'.freeze
   Cid = 'id'.freeze
   CIF_MODIFIED_SINCE = 'IF-MODIFIED-SINCE'.freeze
   Cimage = 'image'.freeze
