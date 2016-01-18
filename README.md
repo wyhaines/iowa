@@ -1,3 +1,9 @@
+# Heading for version 2.0
+
+Applying some changes, some of which are in production in private repositories,
+and some of which are just things that have been waiting a long time to be
+implemented. The end result will be IOWA 2.0.
+
 # IOWA v1.0.0
 
 ## History
