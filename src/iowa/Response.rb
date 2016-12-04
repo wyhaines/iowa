@@ -62,6 +62,7 @@ module Iowa
 			@content_type = Ctext_html
 			@body = out
 			@headers = Iowa::DataTable.new
+			@headers.set('Cache-Control','private, max-age=0, no-store')
 			@calculate_runtime = false
 		end
 
