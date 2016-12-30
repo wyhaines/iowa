@@ -5,6 +5,13 @@ require 'iowa/http11'
 require 'iowa/Client'
 require 'iowa/request/EMHybrid'
 
+# Hmmm.....This lets the code treat a string buffer and a TempFile based buffer the same, but...hmmm...
+class IO
+  def [](pos,len)
+    self.seek pos
+    self.read len
+  end
+end
 
 module Iowa 
   class EMHybridClusterServer < EventMachine::Connection
