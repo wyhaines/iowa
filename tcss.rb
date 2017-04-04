@@ -1,4 +1,4 @@
-require 'src/iowa/CSS'
+require 'iowa/CSS'
 
 a = Iowa::CSS.new
 b = <<ECSS

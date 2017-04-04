@@ -323,6 +323,7 @@ module Iowa
     # Performs all of the work necessary to start a new Iowa Application.
 
     def initialize(docroot)
+      @model_mutex = Mutex.new
       self.class.iowa_root
       self.class.log_root
       if self.class.Config && FileTest.exist?(self.class.Config)
@@ -354,10 +355,10 @@ module Iowa
         Iowa.config[Capplication][Csessioncache][Cmaxsize] = 300
         Iowa.config[Capplication][Csessioncache][Cttl] = nil
       end
-      
+
       Iowa.config[Capplication][Cpath_query_interval] = int_or_nil(Iowa.config[Capplication][Cpath_query_interval])
       Iowa.config[Capplication][Creload_interval] = int_or_nil(Iowa.config[Capplication][Creload_interval])
-      
+
       self.class.Dispatcher = nil unless  self.class.Dispatcher
       self.class.SessionCache = nil unless self.class.SessionCache
       self.class.SessionCache.add_finalizer {|key, obj| obj.lock = nil}
@@ -402,7 +403,7 @@ module Iowa
       nil
     end
     public
-      
+
     def read_model(model)
       Logger[Ciowa_log].info "Loading model #{model}."
       load model
@@ -427,7 +428,7 @@ module Iowa
           Logger[Ciowa_log].info "model monitor sleeping for #{sleep_time} seconds"
           sleep(sleep_time)
         end
-        Thread.exclusive do
+        @model_mutex.synchronize do
           self.class.Models.each do |model|
             Logger[Ciowa_log].info "model #{model}"
             next unless FileTest.exist? model
