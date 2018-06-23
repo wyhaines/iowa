@@ -444,7 +444,13 @@ module Iowa
 
 	class TextElement < String
 		def handleRequest(context); end
-		def handleResponse(context); context.response << self; end
+		def handleResponse(context)
+                  if self.length == 1
+                    context.response << self.chomp
+                  else
+                    context.response << self
+                  end
+                end
 	end
 	
 	class BodyContent < Element
