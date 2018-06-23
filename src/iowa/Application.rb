@@ -424,7 +424,7 @@ module Iowa
       @model_mtimes = {}
       begin
         if doloop
-          sleep_time Iowa.config[Capplication][Cmodel][Cinterval] + rand(Iowa.config[Capplication][Cmodel][Cvariation].to_i)
+          sleep_time = Iowa.config[Capplication][Cmodel][Cinterval] + rand(Iowa.config[Capplication][Cmodel][Cvariation].to_i)
           Logger[Ciowa_log].info "model monitor sleeping for #{sleep_time} seconds"
           sleep(sleep_time)
         end
