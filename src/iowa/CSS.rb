@@ -478,7 +478,7 @@ module Iowa
 
 		def self.correct_for_css(t)
 			text = t.to_s
-			text.gsub!('_','-') unless text =~ /['"`]/
+			text = text.gsub('_','-') unless text =~ /['"`]/
 			#if text.index(' ')
 			#	text = "\"#{text}\""
 			#end

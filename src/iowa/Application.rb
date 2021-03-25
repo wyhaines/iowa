@@ -711,7 +711,7 @@ module Iowa
     # Given a component name, finds the path to it.
 
     def pathForName(name)
-      name.gsub!(/Iowa::Application::ContentClasses::/,C_empty)
+      name = name.gsub(/Iowa::Application::ContentClasses::/,C_empty)
       return @pathNameCache[name] if @templateLTimes.has_key?(name) and (@templateLTimes[name] < Time.now)
       my_docroot = @docroot
       my_docroot << C_slash unless my_docroot[-1,1] == C_slash
@@ -733,7 +733,7 @@ module Iowa
     # Extract the code and bindings from the code data.
   
     def get_code_and_bindings(codedata)
-      codedata.sub!(/<\?(.*?)\?>/m, C_empty)
+      codedata = codedata.sub(/<\?(.*?)\?>/m, C_empty)
       bindings = ''
       bindings = $1.gsub(BindingCommentsRegexp,C_empty) if $1
       if m = /<%(.*?)%>/m.match(codedata)
@@ -767,13 +767,13 @@ module Iowa
         codedata = data.gsub(/\cM/,C_empty)
         unless /<%.*?%>/m.match(codedata)
           codedata,codefile_path = defaultScript(file)
-          codedata.gsub!(/\cM/,C_empty)
+          codedata = codedata.gsub(/\cM/,C_empty)
           code_text, bindings_text = *get_code_and_bindings(codedata)
         else
           codefile_path = file.path
-          codedata.sub!(/<%(.*?)%>/m, C_empty)
+          codedata = codedata.sub(/<%(.*?)%>/m, C_empty)
           code_text = $1
-          codedata.sub!(/<\?(.*?)\?>/m, C_empty)
+          codedata = codedata.sub(/<\?(.*?)\?>/m, C_empty)
           bindings_text = $1.gsub(BindingCommentsRegexp,C_empty) if $1
           data = codedata
         end
@@ -883,7 +883,7 @@ module Iowa
       my_docroot << C_slash unless my_docroot[-1,1] == C_slash
       my_docroot_minus_slash = my_docroot.sub(/\/$/,C_empty)
       filepath = file.path
-      filepath.sub!(/#{my_docroot}/,C_empty)
+      filepath = filepath.sub(/#{my_docroot}/,C_empty)
     
       path_parts = filepath.split(C_slash)
       # Knock the filename off of the array.
@@ -912,7 +912,7 @@ module Iowa
         mylog.info "Used basic scriptfile for #{file.path}"
       end
     
-      r.gsub!(/\[--CLASSNAME--\]/,name)
+      r = r.gsub(/\[--CLASSNAME--\]/,name)
       [r,df_found]
     end
 

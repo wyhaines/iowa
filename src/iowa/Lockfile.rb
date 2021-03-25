@@ -362,7 +362,7 @@ unless defined? $__lockfile__
             else
               next
             end
-            host.gsub!(%r/^\.+|\.+$/,'')
+            host = host.gsub(%r/^\.+|\.+$/,'')
             quad = host.split %r/\./
             host = quad.first
             pat = %r/^\s*#{ host }/i

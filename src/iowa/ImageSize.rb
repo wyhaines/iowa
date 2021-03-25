@@ -140,8 +140,7 @@ class ImageSize
 	private(:measure_BMP)
 
 	def measure_PPM()
-		header = @img_data.read_o(1024)
-		header.gsub!(/^\#[^\n\r]*/m, "")
+		header = @img_data.read_o(1024).gsub(/^\#[^\n\r]*/m, "")
 		header =~ /^(P[1-6])\s+?(\d+)\s+?(\d+)/m
 		width = $2.to_i; height = $3.to_i
 		case $1

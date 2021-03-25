@@ -337,21 +337,21 @@ module Iowa
 						if @subtype
 							if @subsub
 								if @subtype == :sub
-									request.uri.sub!(@match,@subsub)
+                                                                  request.uri = request.uri.sub(@match,@subsub)
 								elsif @subtype == :gsub
-									request.uri.gsub!(@match,@subsub)
+                                                                  request.uri = request.uri.gsub(@match,@subsub)
 								end
 							elsif @subproc
 								if @subtype == :sub
-									request.uri.sub!(@match) {|*args| @subproc.call(request,*args)}
+                                                                  request.uri = request.uri.sub(@match) {|*args| @subproc.call(request,*args)}
 								elsif @subtype == :gsub
-									request.uri.gsub!(@match) {|*args| @subproc.call(request,*args)}
+                                                                  request.uri = request.uri.gsub(@match) {|*args| @subproc.call(request,*args)}
 								end
 							end
 						elsif @call
 							call_completed = false
 							if @call =~ /(?:::|^[A-Z][\w\d]*\.)/
-								@call.sub!(/^::/,'')
+								@call = @call.sub(/^::/,'')
 								if @call =~ /::/
 									parts = @call.split(/::/).reject {|p| p == ''}
 								else

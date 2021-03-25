@@ -42,4 +42,8 @@ spec = Gem::Specification.new do |s|
     end
   end
   s.description = description[1..-1].join(" ")
+
+  s.add_runtime_dependency "eventmachine"
+  s.add_runtime_dependency "mail"
+  s.add_runtime_dependency "mime-types"
 end

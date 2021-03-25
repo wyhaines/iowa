@@ -56,8 +56,7 @@ module Iowa
   class FlexibleAssociation < Association
     def FlexibleAssociation.new(association)
       if association[0] == 123
-        association.sub!(/^\{/,C_empty)
-        association.sub!(/\}\s*$/,C_empty)
+        association = association.sub(/^\{/,C_empty).sub(/\}\s*$/,C_empty)
         LiteralAssociation.new(Proc.new {|*ns| ns = ns[0] || binding ; eval(association,ns)})
       else
         PathAssociation.new(association)

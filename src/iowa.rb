@@ -92,8 +92,8 @@ module Iowa
 					new_item = {}
 					next unless item.is_a?(::Hash)
 					item.each do |k,v|
-						k.sub!(/^\s+/,'')
-						v.sub!(/^\s+/,'')
+						k = k.sub(/^\s+/,'')
+						v = v.sub(/^\s+/,'')
 						c,m = v.split('.',2)
 						dd = Iowa::DispatchDestination.new(c,m)
 						if m = /^\/(.*)\//.match(k)
@@ -110,7 +110,7 @@ module Iowa
 					new_item = {}
 					next unless item.is_a?(::Hash)
 					item.each do |k,v|
-						k.sub!(/^\s+/,'')
+						k = k.sub(/^\s+/,'')
 						if v.is_a?(Array)
 							list = []
 							v.each {|x| list.push(Regexp.new(x.sub(/^\s+/,''),true))}

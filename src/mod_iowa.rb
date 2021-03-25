@@ -24,8 +24,7 @@ module Apache
 			end
 
 			if @IowaMap and mapfile.to_s != ''
-				upuri = r.unparsed_uri
-				upuri.gsub!('\?.*$','') if upuri =~ /\?/
+				upuri = r.unparsed_uri.gsub('\?.*$','') if upuri =~ /\?/
 				m = URIRegex.match upuri
 				urlRoot = m[1]
 				urlRoot.chop! if m[2] unless urlRoot == '/'
@@ -89,8 +88,7 @@ module Apache
 				File.open(mapfile,'r') do |fh|
 					fh.each do |line|
 						next if line =~ /^\s*#/
-						line.chomp!
-						line.gsub!(/: .*$/,'')
+						line = line.chomp.gsub(/: .*$/,'')
 						map[line] = true
 					end
 				end

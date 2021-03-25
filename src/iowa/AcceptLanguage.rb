@@ -32,7 +32,7 @@ module Iowa
 			seq = []
 			alstring.split(C_comma).each do |spec|
 				language,qf = spec.split(QFRXP)
-				qf.sub!(/q=/,C_empty) if qf
+				qf = qf.sub(/q=/,C_empty) if qf
 				qf = C_1_0 unless qf.to_s != C_empty
 				seq << [language,qf.to_f]
 			end
