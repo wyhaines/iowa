@@ -279,6 +279,7 @@ module Iowa
       pieces = thing.split(/::|#{File::SEPARATOR}/)
       parts = []
       pieces.each do |piece|
+        piece = Iowa::String.new(piece)
         x = [piece]
         x.push piece.snake_case if piece != piece.snake_case
         x.push piece.constant_case if piece != piece.constant_case
